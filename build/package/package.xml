@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <!--项目打包统一文件 -->
+    <id>package</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <fileSets>
+        <!-- 启动脚本文件打包 ST-->
+        <fileSet>
+            <directory>${build.script.path}/bin/</directory>
+            <outputDirectory>/bin/</outputDirectory>
+            <includes>
+                <include>*.sh</include>
+                <include>*.cmd</include>
+            </includes>
+            <fileMode>755</fileMode>
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered>
+        </fileSet>
+        <!-- 启动脚本文件打包 END -->
+        <!--资源文件打包 -->
+        <fileSet>
+            <directory>src/main/resources</directory>
+            <outputDirectory>/config/</outputDirectory>
+            <excludes>
+                <exclude>application-*.properties</exclude>
+            </excludes>
+        </fileSet>
+        <!-- 启动jar文件打包 -->
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>${file.separator}</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>
