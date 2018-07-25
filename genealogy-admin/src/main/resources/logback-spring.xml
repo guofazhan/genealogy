@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="30 seconds">
+    <jmxConfigurator/>
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss:SSS}|%level|%c|%thread| - %msg%n"/>
+    <property name="log.home" value="/data/logs/nm-push"/>
+    <property name="log.level" value="DEBUG"/>
+    <property name="log.max.file.size" value="100MB"/>
+    <property name="log.max.history" value="15"/>
+
+    <!-- 控制台输出日志 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+    <!--文件日志-->
+    <appender name="FILE-INFO"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <OnMatch>ACCEPT</OnMatch>
+            <OnMismatch>DENY</OnMismatch>
+        </filter>
+        <File>${log.home}/info.log</File>
+        <append>true</append>
+        <!--日志归档策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${log.home}/%d{yyyy-MM-dd}/info/info-%d{yyyy-MM-dd-HH}-%i.log</FileNamePattern>
+            <MaxFileSize>${log.max.file.size}</MaxFileSize>
+            <MaxHistory>${log.max.history}</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <!-- WARN文件输出日志 (文件小时大小策略进行文件输出，超过指定大小对文件备份) -->
+    <appender name="FILE-WARN"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <OnMatch>ACCEPT</OnMatch>
+            <OnMismatch>DENY</OnMismatch>
+        </filter>
+        <File>${log.home}/warn.log</File>
+        <append>true</append>
+        <!--日志归档策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${log.home}/%d{yyyy-MM-dd}/warn/warn-%d{yyyy-MM-dd-HH}-%i.log</FileNamePattern>
+            <MaxFileSize>${log.max.file.size}</MaxFileSize>
+            <MaxHistory>${log.max.history}</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <!-- ERROR文件输出日志 (文件小时大小策略进行文件输出，超过指定大小对文件备份) -->
+    <appender name="FILE-ERROR"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <OnMatch>ACCEPT</OnMatch>
+            <OnMismatch>DENY</OnMismatch>
+        </filter>
+        <File>${log.home}/error.log</File>
+        <append>true</append>
+        <!--日志归档策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${log.home}/%d{yyyy-MM-dd}/error/error-%d{yyyy-MM-dd-HH}-%i.log</FileNamePattern>
+            <MaxFileSize>${log.max.file.size}</MaxFileSize>
+            <MaxHistory>${log.max.history}</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <!--  异步输出，异步的log片段必须在同步段后面，否则不起作用  -->
+    <appender name="FILE-INFO-ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>10000</queueSize>
+        <appender-ref ref="FILE-INFO"/>
+    </appender>
+    <appender name="FILE-WARN-ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>512</queueSize>
+        <appender-ref ref="FILE-WARN"/>
+    </appender>
+    <appender name="FILE-ERROR-ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>512</queueSize>
+        <appender-ref ref="FILE-ERROR"/>
+    </appender>
+    <appender name="STDOUT-ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>10000</queueSize>
+        <appender-ref ref="STDOUT"/>
+    </appender>
+    <logger name="com.genealogy.admin" level="INFO"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.hibernate.validator" level="WARN"/>
+    <logger name="feign.client" level="DEBUG"/>
+    <logger name="org.quartz" level="INFO"/>
+    <!--文件日志-->
+    <root level="${log.level}">
+        <appender-ref ref="STDOUT-ASYNC"/>
+        <appender-ref ref="FILE-INFO-ASYNC"/>
+        <appender-ref ref="FILE-WARN-ASYNC"/>
+        <appender-ref ref="FILE-ERROR-ASYNC"/>
+    </root>
+</configuration>

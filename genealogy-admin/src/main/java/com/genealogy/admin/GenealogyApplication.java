@@ -1,5 +1,6 @@
 package com.genealogy.admin;
 
+import com.genealogy.admin.common.utils.ServiceBanner;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +23,7 @@ public class GenealogyApplication {
 		SpringApplication app = new SpringApplication(
 				GenealogyApplication.class);
 		app.setBannerMode(Banner.Mode.CONSOLE);
-		//app.setBanner(new ServiceBanner());
+		app.setBanner(new ServiceBanner());
 		app.run(args);
 	}
 }
