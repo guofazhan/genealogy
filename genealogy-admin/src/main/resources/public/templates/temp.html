@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="app" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head th:replace="layout::commonHead('测试页面thymeleaf模板')"></head>
+<body>
+<section class="vbox">
+    <!-- left  start-->
+    <section th:replace="layout::commonHeader"></section>
+    <section>
+        <section class="hbox stretch">
+            <section th:replace="layout::commonAside"></section>
+            <section id="content">
+                <section class="hbox stretch">
+                    <section layout:fragment="content"></section>
+                </section>
+                <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
+            </section>
+        </section>
+        <section th:include="layout::commonFooter"></section>
+    </section>
+</section>
+</body>
+</html>

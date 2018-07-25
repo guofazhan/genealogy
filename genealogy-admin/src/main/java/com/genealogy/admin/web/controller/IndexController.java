@@ -17,6 +17,6 @@ public class IndexController {
 	@GetMapping("/")
 	public String index(Map<String,Object> map) {
 		map.put("msg", "Hello Thymeleaf");
-		return "login";
+		return "index";
 	}
 }
