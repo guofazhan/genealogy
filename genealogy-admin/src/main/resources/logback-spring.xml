@@ -98,8 +98,11 @@
     <logger name="com.genealogy.admin" level="INFO"/>
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.hibernate.validator" level="WARN"/>
-    <logger name="feign.client" level="DEBUG"/>
-    <logger name="org.quartz" level="INFO"/>
+    <logger name="org.thymeleaf" level="WARN"/>
+    <logger name="org.apache.ibatis" level="WARN"/>
+    <logger name="org.mybatis" level="WARN"/>
+
+
     <!--文件日志-->
     <root level="${log.level}">
         <appender-ref ref="STDOUT-ASYNC"/>
