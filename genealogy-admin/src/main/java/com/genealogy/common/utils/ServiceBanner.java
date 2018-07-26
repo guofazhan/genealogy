@@ -1,4 +1,4 @@
-package com.genealogy.admin.common.utils;
+package com.genealogy.common.utils;
 
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringBootVersion;

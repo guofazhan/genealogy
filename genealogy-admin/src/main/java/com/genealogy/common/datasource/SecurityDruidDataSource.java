@@ -1,7 +1,7 @@
-package com.genealogy.admin.common.datasource;
+package com.genealogy.common.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.genealogy.admin.common.utils.RSAUtils;
+import com.genealogy.common.utils.RSAUtils;
 
 /**
  * @author guofazhan

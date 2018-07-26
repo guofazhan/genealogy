@@ -1,4 +1,4 @@
-package com.genealogy.admin;
+package com.genealogy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

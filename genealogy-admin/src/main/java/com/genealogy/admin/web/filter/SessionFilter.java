@@ -3,6 +3,7 @@ package com.genealogy.admin.web.filter;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,6 +16,12 @@ import java.util.List;
  * @since [产品/模块版本]
  */
 public class SessionFilter implements Filter {
+
+	/**
+	 * 默认的静态信息
+	 */
+	private static final String[] STATIC_ARR = { "/plugins/", "/css/",
+			"/modules/", "/js/", "/fonts/", "/images/" };
 
 	/**
 	 * 日志
@@ -40,13 +47,31 @@ public class SessionFilter implements Filter {
 	public void doFilter(ServletRequest servletRequest,
 			ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
-		logger.info(
-				"进入过滤器：" + servletRequest.getServletContext().getContextPath());
-		filterChain.doFilter(servletRequest, servletResponse);
+		HttpServletRequest request = (HttpServletRequest) servletRequest;
+		String reqUrl = request.getRequestURI();
+		reqUrl = reqUrl.replace(request.getContextPath(), "");
+		if (!match(reqUrl)) {
+			logger.info("进入过滤器：" + reqUrl);
+			//未匹配到URL
+			filterChain.doFilter(servletRequest, servletResponse);
+		} else {
+			filterChain.doFilter(servletRequest, servletResponse);
+		}
 	}
 
 	@Override
 	public void destroy() {
 
+	}
+
+	public boolean match(String url) {
+		boolean match = false;
+		for (String sw : STATIC_ARR) {
+			if (url.startsWith(sw)) {
+				match = true;
+				break;
+			}
+		}
+		return match;
 	}
 }
