@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    $("#login").on('click',function(){$("#signupForm").submit();});
+    $("#loginBtn").on('click', function () {
+        $("#signupForm").submit();
+    });
     validateRule();
 });
 
@@ -12,26 +14,27 @@ $.validator.setDefaults({
 function login() {
     $.ajax({
         type: "POST",
-        url: ctx+"login",
+        url: CTX_URL + "signin",
         data: $('#signupForm').serialize(),
-        success: function (r) {
-            if (r.code == 0) {
-                var index = layer.load(1, {
-                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+        success: function (data) {
+            if (data.retCode === '000000') {
+                //0.1透明度的白色背景
+                layer.load(1, {
+                    shade: [0.1, '#fff']
                 });
-                parent.location.href = '/index';
-            } else {
-                layer.msg(r.msg);
+                location.href = CTX_URL + 'home';
+            }
+            else {
+                layer.msg(data.retDesc);
             }
         },
     });
 }
-
 function validateRule() {
     var icon = "<i class='fa fa-times-circle'></i> ";
     $("#signupForm").validate({
         rules: {
-            username: {
+            loginName: {
                 required: true
             },
             password: {
@@ -39,7 +42,7 @@ function validateRule() {
             }
         },
         messages: {
-            username: {
+            loginName: {
                 required: icon + "请输入您的用户名",
             },
             password: {
@@ -48,3 +51,4 @@ function validateRule() {
         }
     })
 }
+

@@ -8,7 +8,8 @@
     <title>Y 网 · 男性家系信息平台</title>
     <meta name="keywords" content="Y 网 · 男性家系信息平台"/>
     <meta name="description" content="Y 网 · 男性家系信息平台"/>
-    <link th:href="@{/plugins/bootstrap/3.1.0/css/bootstrap.css}" rel="stylesheet"/>
+    <link th:href="@{/plugins/bootstrap/3.1.0/css/bootstrap.css}"
+          rel="stylesheet"/>
     <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
     <link th:href="@{/css/animate.css}" rel="stylesheet"/>
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
@@ -42,8 +43,10 @@
                     <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>
                         简洁
                     </li>
-                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 快速</li>
-                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 方便</li>
+                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 快速
+                    </li>
+                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 方便
+                    </li>
                     <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>
                         易操作
                     </li>
@@ -51,14 +54,14 @@
             </div>
         </div>
         <div class="col-sm-5">
-            <form id="signupForm">
+            <form id="signupForm" action="">
                 <h3 class="text-center">用户登录</h3>
                 <p class="m-t-md text-center">欢迎登录Y 网 · 男性家系信息平台</p>
-                <input type="text" name="username" class="form-control uname"
+                <input type="text" name="loginName" class="form-control uname"
                        value="admin"/>
                 <input type="password" name="password"
                        class="form-control pword m-b" value="111111"/>
-                <a id="login" class="btn btn-login btn-block">登录</a>
+                <a id="loginBtn" class="btn btn-login btn-block">登录</a>
             </form>
         </div>
     </div>
@@ -68,13 +71,13 @@
     </div>
 </div>
 <!-- 全局js -->
-<script  th:src="@{/plugins/jquery/1.11.0/jquery.min.js}"></script>
-<script  th:src="@{/plugins/bootstrap/3.1.0/js/bootstrap.js}"></script>
+<script th:src="@{/plugins/jquery/1.11.0/jquery.min.js}"></script>
+<script th:src="@{/plugins/validate/jquery.validate.min.js}"></script>
+<script th:src="@{/plugins/bootstrap/3.1.0/js/bootstrap.js}"></script>
 <!-- 自定义js -->
-<script  th:src="@{/js/content.js}"></script>
+<script th:src="@{/js/content.js}"></script>
 <!-- jQuery Validation plugin javascript-->
 <script th:src="@{/js/ajax-util.js}"></script>
-<script th:src="@{/plugins/validate/jquery.validate.min.js}"></script>
 <script th:src="@{/plugins/validate/messages_zh.min.js}"></script>
 <script th:src="@{/plugins/layer/layer.js}"></script>
 <script th:src="@{/modules/login/js/login.js}"></script>
