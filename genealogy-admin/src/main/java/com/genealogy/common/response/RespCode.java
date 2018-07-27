@@ -29,7 +29,7 @@ public class RespCode {
 	 * 校验失败
 	 */
 	public static RespCode COMM_VAT_ERROR = new RespCode("000003",
-			"系统繁忙，请稍后再试！", "校验失败");
+			"请求参数校验失败，请检查参数信息！", "校验失败");
 
 	/**
 	 * FALLBACK

@@ -23,6 +23,12 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public UserEntity login(String loginName, String password) {
-		return userMapper.queryUserByNameAndPassword(loginName, password);
+		UserEntity userEntity = new UserEntity();
+		userEntity.setLoginName(loginName);
+		userEntity.setIsLock(0);
+		userEntity.setPassword(password);
+
+		return userEntity;
+		//return userMapper.queryUserByNameAndPassword(loginName, password);
 	}
 }
