@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="zh-CN" class="app" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
-<head th:replace="template::commonHeader('测试页面thymeleaf模板')"></head>
-<body>
-<section class="vbox">
-    <!-- left  start-->
-    <section th:replace="template::commonTop"></section>
-    <section>
-        <section class="hbox stretch">
-            <section th:replace="template::commonAside"></section>
-            <section id="content">
-                <section class="hbox stretch">
-                    <section layout:fragment="content"></section>
-                </section>
-                <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
-            </section>
+<head th:replace="template::commonHeader('Y 网 · 家系信息平台')"></head>
+<body class="fixed-sidebar full-height-layout gray-bg skin-1" style="overflow: hidden">
+<section id="wrapper">
+    <!--左侧导航开始-->
+    <section th:replace="template::commonLeftAside"></section>
+    <!--左侧导航结束-->
+    <!--右侧部分开始-->
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <section th:replace="template::contentHeader"></section>
+        <section th:replace="template::contentTab"></section>
+        <section class="row J_mainContent" id="content-main">
+            <section layout:fragment="content"></section>
         </section>
-        <section th:include="template::commonFooter"></section>
-    </section>
+        <section th:replace="template::contentFooter"></section>
+    </div>
+    <!--右侧部分结束-->
+    <!--右侧边栏开始-->
+    <section th:replace="template::commonRightAside"></section>
 </section>
+<section th:include="template::commonScript"></section>
 </body>
 </html>

@@ -48,12 +48,10 @@ public class LoginController extends BaseController {
 		//加密后密码
 		String encryptPassword = PasswordUtils
 				.encrypt(reqVo.getLoginName(), reqVo.getPassword());
-
 		//用户登录鉴权
 		SecurityUtils.getSubject()
 				.login(new UsernamePasswordToken(reqVo.getLoginName(),
 						encryptPassword));
-
 		return RespHelper.buildResponseMessage(RespCode.SUCCESS, null);
 	}
 }
