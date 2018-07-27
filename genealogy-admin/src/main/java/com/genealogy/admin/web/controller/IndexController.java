@@ -1,5 +1,8 @@
 package com.genealogy.admin.web.controller;
 
+import com.genealogy.admin.web.service.IMenuService;
+import com.genealogy.common.Tree;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,10 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class IndexController extends BaseController {
+
+	@Autowired
+	private IMenuService menuService;
+
 	/**
 	 * 根路径请求
 	 *
@@ -30,8 +37,24 @@ public class IndexController extends BaseController {
 	 * @param model
 	 * @return
 	 */
+	@GetMapping({ "/index" })
+	public String index(Model model) {
+		//获取菜单树
+		Tree tree = menuService
+				.queryMenuTreeByUserId(getLoginUser().getUserId());
+		model.addAttribute("menuTree", tree);
+		model.addAttribute("showName", getLoginUser().getShowName());
+		return "index";
+	}
+
+	/**
+	 * 主页面请求
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping({ "/home" })
 	public String home(Model model) {
-		return "home";
+		return "/home/index";
 	}
 }

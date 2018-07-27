@@ -22,7 +22,7 @@ function login() {
                 layer.load(1, {
                     shade: [0.1, '#fff']
                 });
-                location.href = CTX_URL + 'home';
+                location.href = CTX_URL + 'index';
             }
             else {
                 layer.msg(data.retDesc);

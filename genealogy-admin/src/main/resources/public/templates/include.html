@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header">
+	<meta charset="utf-8">
+	<link th:href="@{/plugins/bootstrap/3.1.0/css/bootstrap.css}" rel="stylesheet">
+	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+	<link th:href="@{/plugins/bootstrap-table/bootstrap-table.min.css}"
+		  rel="stylesheet">
+	<link th:href="@{/plugins/jsTree/style.min.css}" rel="stylesheet">
+	<link th:href="@{/plugins/jqTreeGrid/jquery.treegrid.css}" rel="stylesheet">
+	<link th:href="@{/plugins/summernote/summernote-0.8.8.css}" rel="stylesheet">
+	<link th:href="@{/plugins/chosen/chosen.css}" rel="stylesheet">
+	<link th:href="@{/css/animate.css}" rel="stylesheet">
+	<link th:href="@{/css/style.css}" rel="stylesheet">
+	<script th:inline="javascript">
+        var CTX_URL = [[@{/}]] ;
+	</script>
+</head>
+<div th:fragment="footer">
+	<script th:src="@{/plugins/jquery/1.11.0/jquery.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap/3.1.0/js/bootstrap.js}"></script>
+	<script th:src="@{/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+	<script th:src="@{/plugins/validate/jquery.validate.min.js}"></script>
+	<script th:src="@{/plugins/validate/messages_zh.min.js}"></script>
+	<script th:src="@{/plugins/jsTree/jstree.min.js}"></script>
+	<script th:src="@{/plugins/jqTreeGrid/jquery.treegrid.min.js}"></script>
+	<script th:src="@{/plugins/jqTreeGrid/jquery.treegrid.extension.js}"></script>
+	<script th:src="@{/plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js}"></script>
+	<script th:src="@{/plugins/chosen/chosen.jquery.js}"></script>
+	<script th:src="@{/plugins/layer/layer.js}"></script>
+	<script th:src="@{/js/content.js?v=1.0.0}"></script>
+	<script th:src="@{/plugins/summernote/summernote.js}"></script>
+	<script th:src="@{/plugins/summernote/summernote-zh-CN.min.js}"></script>
+	<script th:src="@{/js/ajax-util.js}"></script>
+</div>
+</html>

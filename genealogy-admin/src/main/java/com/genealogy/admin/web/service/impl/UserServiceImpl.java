@@ -24,10 +24,11 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public UserEntity login(String loginName, String password) {
 		UserEntity userEntity = new UserEntity();
+		userEntity.setUserId(1);
 		userEntity.setLoginName(loginName);
 		userEntity.setIsLock(0);
 		userEntity.setPassword(password);
-
+		userEntity.setShowName("系统管理员");
 		return userEntity;
 		//return userMapper.queryUserByNameAndPassword(loginName, password);
 	}

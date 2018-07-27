@@ -18,11 +18,14 @@
     <link th:href="@{/css/plugins/toastr/toastr.min.css}" rel="stylesheet">
     <link th:href="@{/css/animate.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
+    <script th:inline="javascript">
+        var CTX_URL = [[@{/}]] ;
+    </script>
 </head>
 <!-- head template end-->
 <body>
 <!-- Left Aside  template-->
-<nav th:fragment="commonLeftAside" class="navbar-default navbar-static-side"
+<nav th:fragment="commonLeftAside(showName,menuTree)" class="navbar-default navbar-static-side"
      role="navigation">
     <section class="nav-close">
         <i class="fa fa-times-circle"></i>
@@ -37,7 +40,7 @@
                 <div class="dropdown profile-element hidden">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear">
-                            <span class="block m-t-xs"><strong class="font-bold" th:text="${username}">admin</strong></span>
+                            <span class="block m-t-xs"><strong class="font-bold" th:text="${showName}">admin</strong></span>
                             <span class="text-muted text-xs block">超级管理员<b class="caret"></b></span></span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -51,28 +54,19 @@
                     <div class="logo-element">BootDo</div>
                 </div>
             </li>
-            <li>
+            <li th:each="menu : ${menuTree.children}">
+                <!--目录层级 -->
                 <a href="#">
-                    <i class="fa fa-home"></i>
-                    <span class="nav-label">主页</span>
+                    <i class="fa fa fa-bar-chart-o" th:class="${menu.attributes.icon}"></i>
+                    <span class="nav-label" th:text="${menu.text}"></span>
                     <span class="fa arrow"></span>
                 </a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a id="index001" class="J_menuItem" href="index_v1.html" data-index="0" th:href="@{/main}">首页</a>
-                    </li>
-                </ul>
-            </li>
-            <li th:each="menu : ${menus}">
-                <a href="#">
-                <i class="fa fa fa-bar-chart-o" th:class="${menu.attributes.icon}"></i>
-                <span class="nav-label" th:text="${menu.text}">基础信息</span>
-                <span
-                        class="fa arrow"></span>
-                </a>
+                <!-- 菜单层级 -->
                 <ul class="nav nav-second-level">
                     <li th:each="cmenu : ${menu.children}">
-                        <a class="J_menuItem" href="graph_echarts.html" th:text="${cmenu.text}" th:href="${cmenu.attributes.url}">系统管理</a></li>
+                        <a class="J_menuItem" th:text="${cmenu.text}" th:href="${cmenu.attributes.url}">
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -184,7 +178,7 @@
     <script th:src="@{/js/app.js}"></script>
     <script type="text/javascript" th:src="@{/js/contabs.js}"></script>
     <script type="text/javascript"
-            th:src="@{/modules/home/js/home.js}"></script>
+            th:src="@{/modules/index/js/index.js}"></script>
 </footer>
 <!-- /.Footer  template-->
 
@@ -240,7 +234,7 @@
     <button class="roll-nav roll-left J_tabLeft"><i class="fa fa-backward"></i></button>
     <nav class="page-tabs J_menuTabs">
         <div class="page-tabs-content">
-            <a href="javascript:;" class="active J_menuTab" data-id="index_v1.html">首页</a>
+            <a href="javascript:;" class="active J_menuTab" data-id="home">首页</a>
         </div>
     </nav>
     <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i></button>

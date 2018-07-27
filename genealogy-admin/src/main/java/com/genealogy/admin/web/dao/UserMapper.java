@@ -4,7 +4,7 @@ import com.genealogy.admin.web.model.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 用户信息接口
+ * 用户信息数据库操作接口
  *
  * @author guofazhan
  * @version [版本号, 2018/7/26 0026 0001]

@@ -1,9 +1,7 @@
 package com.genealogy.admin.configure.web;
 
-import com.genealogy.admin.web.filter.SessionFilter;
 import com.genealogy.admin.web.filter.XssFilter;
 import com.genealogy.admin.web.listener.InitListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -24,9 +22,6 @@ import java.util.Map;
 @Configuration
 @EnableConfigurationProperties({ FilterProperties.class })
 public class WebConfigure {
-
-	@Autowired
-	private FilterProperties filterProperties;
 
 	@Bean
 	public ServletListenerRegistrationBean initListenerRegister() {
@@ -52,36 +47,4 @@ public class WebConfigure {
 		return filterRegistrationBean;
 	}
 
-	@Bean
-	public FilterRegistrationBean sessionFilterRegister() {
-		FilterRegistrationBean registration = new FilterRegistrationBean();
-		if (null == filterProperties.getSession()) {
-			//注入过滤器
-			registration.setFilter(new SessionFilter(null));
-			//拦截规则
-			registration.addUrlPatterns("/*");
-			//过滤器名称
-			registration.setName("sessionFilter");
-			//过滤器顺序
-			registration.setOrder(1);
-		} else {
-			//注入过滤器
-			registration.setFilter(new SessionFilter(
-					filterProperties.getSession().getExclusions()));
-			//拦截规则
-			registration.addUrlPatterns(
-					filterProperties.getSession().getUrlPatterns() == null ?
-							"/*" :
-							filterProperties.getSession().getUrlPatterns());
-			//过滤器名称
-			registration.setName(
-					filterProperties.getSession().getName() == null ?
-							"sessionFilter" :
-							filterProperties.getSession().getName());
-			//过滤器顺序
-			registration.setOrder(filterProperties.getSession().getOrder());
-		}
-
-		return registration;
-	}
 }
