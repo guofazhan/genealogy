@@ -21,4 +21,38 @@ public interface MenuMapper {
 	 * @return
 	 */
 	List<MenuEntity> queryMenusByUserId(Integer userId);
+
+	/**
+	 * 查询所有菜单信息
+	 * @return
+	 */
+	List<MenuEntity> queryAll();
+
+	/**
+	 * 根据ID查询菜单信息
+	 * @param id
+	 * @return
+	 */
+	MenuEntity get(Integer id);
+
+
+	/**
+	 * 保存菜单信息
+	 * @param entity
+	 */
+	void save(MenuEntity entity);
+
+	/**
+	 * 更新菜单信息
+	 * @param entity
+	 * @return
+	 */
+	int update(MenuEntity entity);
+
+	/**
+	 * 删除菜单根据菜单ID(包含删除子菜单信息)
+	 * @param id
+	 * @return
+	 */
+	int delete(Integer id);
 }

@@ -1,16 +1,14 @@
 package com.genealogy.admin.web.service.impl;
 
 import com.genealogy.admin.web.dao.MenuMapper;
+import com.genealogy.admin.web.model.EntityHelper;
 import com.genealogy.admin.web.model.MenuEntity;
 import com.genealogy.admin.web.service.IMenuService;
 import com.genealogy.common.Tree;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 菜单服务
@@ -28,106 +26,102 @@ public class MenuServiceImpl implements IMenuService {
 
 	@Override
 	public Tree queryMenuTreeByUserId(Integer userId) {
+		//根据用户ID查询菜单信息
+		List<MenuEntity> menus = menuMapper.queryMenusByUserId(0);
+		return builMenuTree(menus);
+	}
+
+	@Override
+	public List<MenuEntity> queryAll() {
+		return menuMapper.queryAll();
+	}
+
+	@Override
+	public MenuEntity get(Integer id) {
+		return menuMapper.get(id);
+	}
+
+	@Override
+	public void save(MenuEntity entity) {
+		//补全实体信息
+		EntityHelper.compleSaveEntity(entity);
+		if(entity.getSort() == null){
+			entity.setSort(0);
+		}
+		menuMapper.save(entity);
+	}
+
+	@Override
+	public int update(MenuEntity entity) {
+		EntityHelper.compleSaveEntity(entity);
+		if(entity.getSort() == null){
+			entity.setSort(0);
+		}
+		return menuMapper.update(entity);
+	}
+
+	@Override
+	public int delete(Integer id) {
+		return menuMapper.delete(id);
+	}
+
+	/**
+	 * 构建左菜单栏树结构
+	 * @param menus
+	 * @return
+	 */
+	private Tree builMenuTree(List<MenuEntity> menus){
+		return buildTree(getRoot(),menus);
+	}
+
+	/**
+	 * 构建树结构
+	 * @param current
+	 * @param menus
+	 * @return
+	 */
+	private Tree buildTree(MenuEntity current, List<MenuEntity> menus){
+		Map<String, Object> attributes = new HashMap<>(1);
+		attributes.put("icon", current.getMenuIcon());
+		attributes.put("url", current.getMenuUrl());
+
+		if(null == menus || menus.isEmpty()){
+			return Tree.newBuilder().setId(current.getMenuId() + "")
+					.setText(current.getMenuName()).setAttributes(attributes)
+					.setChildren(Collections.emptyList()).setHasParent(false)
+					.setHasChildren(false).setParentId(current.getParentId() + "")
+					.build();
+		}
+		List<Tree> currentChilds = new ArrayList<>();
+		for(MenuEntity menu:menus){
+			if(menu.getParentId() ==current.getMenuId()){
+				//继续查找子节点
+				currentChilds.add(buildTree(menu,menus));
+			}
+		}
+		//构建树结构
+		return Tree.newBuilder().setId(current.getMenuId() + "")
+				.setText(current.getMenuName()).setAttributes(attributes)
+				.setChildren(currentChilds).setHasParent(true)
+				.setHasChildren(currentChilds.isEmpty()?false:true).setParentId(current.getParentId() + "")
+				.build();
+	}
+
+
+	/**
+	 * 创建树根级节点
+	 * @return
+	 */
+	private MenuEntity getRoot(){
 		//根菜单
 		MenuEntity root = new MenuEntity();
 		root.setMenuId(0);
 		root.setMenuName("root");
 		root.setParentId(0);
 		root.setMenuType(0);
-
-		//系统管理
-		MenuEntity sys = new MenuEntity();
-		sys.setMenuId(1);
-		sys.setMenuName("系统管理");
-		sys.setParentId(0);
-		sys.setMenuType(0);
-		sys.setMenuIcon("fa fa-desktop");
-
-		MenuEntity user = new MenuEntity();
-		user.setMenuId(2);
-		user.setMenuName("用户管理");
-		user.setMenuType(1);
-		user.setParentId(1);
-		user.setMenuIcon("fa fa-user");
-		user.setMenuUrl("sys/user/");
-
-		MenuEntity menu = new MenuEntity();
-		menu.setMenuId(3);
-		menu.setMenuName("菜单管理");
-		menu.setMenuType(1);
-		menu.setParentId(1);
-		menu.setMenuIcon("fa fa-th-list");
-		menu.setMenuUrl("sys/menu/");
-
-		Map<String, Object> userAttributes = new HashMap<>(1);
-		userAttributes.put("icon", user.getMenuIcon());
-		userAttributes.put("url", user.getMenuUrl());
-		Tree userTree = Tree.newBuilder().setId(user.getMenuId() + "")
-				.setText(user.getMenuName()).setAttributes(userAttributes)
-				.setParentId(user.getParentId() + "").setHasParent(true)
-				.build();
-
-		Map<String, Object> menuAttributes = new HashMap<>(1);
-		menuAttributes.put("icon", menu.getMenuIcon());
-		menuAttributes.put("url", menu.getMenuUrl());
-		Tree menuTree = Tree.newBuilder().setId(menu.getMenuId() + "")
-				.setText(menu.getMenuName()).setAttributes(menuAttributes)
-				.setParentId(menu.getParentId() + "").setHasParent(true)
-				.build();
-
-		Map<String, Object> sysAttributes = new HashMap<>(1);
-		sysAttributes.put("icon", sys.getMenuIcon());
-		sysAttributes.put("url", sys.getMenuUrl());
-		List<Tree> sysChilds = new ArrayList<>();
-		sysChilds.add(userTree);
-		sysChilds.add(menuTree);
-		Tree sysTree = Tree.newBuilder().setId(sys.getMenuId() + "")
-				.setText(sys.getMenuName()).setAttributes(sysAttributes)
-				.setChildren(sysChilds).setHasParent(true).setHasChildren(true)
-				.setParentId(user.getParentId() + "").build();
-
-		Map<String, Object> rootAttributes = new HashMap<>(1);
-		rootAttributes.put("icon", root.getMenuIcon());
-		rootAttributes.put("url", root.getMenuIcon());
-		List<Tree> rootChilds = new ArrayList<>();
-		rootChilds.add(sysTree);
-		Tree rootTree = Tree.newBuilder().setId(root.getMenuId() + "")
-				.setText(root.getMenuName()).setAttributes(rootAttributes)
-				.setChildren(rootChilds).setHasParent(false)
-				.setHasChildren(true).setParentId(user.getParentId() + "")
-				.build();
-		return rootTree;
+		return root;
 	}
 
-	@Override
-	public List<MenuEntity> queryAll() {
-		//系统管理
-		MenuEntity sys = new MenuEntity();
-		sys.setMenuId(1);
-		sys.setMenuName("系统管理");
-		sys.setParentId(0);
-		sys.setMenuType(0);
-		sys.setMenuIcon("fa fa-desktop");
 
-		MenuEntity user = new MenuEntity();
-		user.setMenuId(2);
-		user.setMenuName("用户管理");
-		user.setMenuType(1);
-		user.setParentId(1);
-		user.setMenuIcon("fa fa-user");
-		user.setMenuUrl("sys/user/");
 
-		MenuEntity menu = new MenuEntity();
-		menu.setMenuId(3);
-		menu.setMenuName("菜单管理");
-		menu.setMenuType(1);
-		menu.setParentId(1);
-		menu.setMenuIcon("fa fa-th-list");
-		menu.setMenuUrl("sys/menu/");
-		List<MenuEntity> list = new ArrayList<>();
-		list.add(sys);
-		list.add(user);
-		list.add(menu);
-		return list;
-	}
 }

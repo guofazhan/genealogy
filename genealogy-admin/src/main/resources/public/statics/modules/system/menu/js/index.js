@@ -69,7 +69,7 @@ var load = function () {
                     },
                     {
                         title: '权限标识',
-                        field: 'perms',
+                        field: 'code',
                         valign: 'center',
                         width : '20%',
                     },
@@ -95,6 +95,7 @@ var load = function () {
                                 + item.menuId
                                 + '\')"><i class="fa fa-remove"></i></a> ';
                             return e + d + p;
+                            return "";
                         }
                     }]
             });
@@ -104,6 +105,10 @@ function reLoad() {
     load();
 }
 
+/**
+ * 添加事件
+ * @param pId
+ */
 function add(pId) {
     layer.open({
         type: 2,
@@ -111,12 +116,12 @@ function add(pId) {
         maxmin: true,
         shadeClose: false, // 点击遮罩关闭层
         area: ['800px', '520px'],
-        content: prefix + '/add/' + pId // iframe的url
+        content: prefix + '/add/' + pId
     });
 }
 
 function remove(id) {
-    layer.confirm('确定要删除选中的记录？', {
+    layer.confirm('确定要删除选中的菜单(包含子菜单)？', {
         btn: ['确定', '取消']
     }, function () {
         $.ajax({
@@ -126,11 +131,12 @@ function remove(id) {
                 'id': id
             },
             success: function (data) {
-                if (data.code == 0) {
+                if (data.retCode === '000000') {
                     layer.msg("删除成功");
                     reLoad();
-                } else {
-                    layer.msg(data.msg);
+                }
+                else {
+                    layer.msg(data.retDesc);
                 }
             }
         });
@@ -144,10 +150,6 @@ function edit(id) {
         maxmin: true,
         shadeClose: false, // 点击遮罩关闭层
         area: ['800px', '520px'],
-        content: prefix + '/edit/' + id // iframe的url
+        content: prefix + '/edit/' + id
     });
-}
-
-function batchRemove() {
-    // var rows = $('#exampleTable').bootstrapTable('getSelections');
 }

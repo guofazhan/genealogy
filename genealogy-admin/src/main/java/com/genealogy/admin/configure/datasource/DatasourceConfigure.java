@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 /**
  * @author guofazhan
@@ -77,12 +78,11 @@ public class DatasourceConfigure {
 		datasource.setTestOnReturn(
 				datasourceProperties.getDefaultDataSource().isTestOnReturn());
 		//添加时是否需要init操作
-		//			try {
-		//				datasource.init();
-		//				dataSourceMap.put(datasourceOptions.getKey(),datasource);
-		//			} catch (SQLException e) {
-		//				logger.error("Init DataSource Error:",e);
-		//			}
+					try {
+						datasource.init();
+					} catch (SQLException e) {
+						logger.error("Init DataSource Error:",e);
+					}
 
 		return datasource;
 	}

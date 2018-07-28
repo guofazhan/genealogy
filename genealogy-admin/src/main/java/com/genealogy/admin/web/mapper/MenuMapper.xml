@@ -2,6 +2,126 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.genealogy.admin.web.dao.MenuMapper">
+    <resultMap id="menuResultMap" type="com.genealogy.admin.web.model.MenuEntity">
+        <!-- 用id属性来映射主键字段 -->
+        <id property="menuId" column="ID"/>
+        <!-- 用result属性来映射非主键字段 -->
+        <result property="parentId" column="PARENT_ID"/>
+        <result property="menuName" column="NAME"/>
+        <result property="menuUrl" column="URL"/>
+        <result property="code" column="CODE"/>
+        <result property="menuType" column="TYPE"/>
+        <result property="menuIcon" column="ICON"/>
+        <result property="sort" column="SORT"/>
+        <result property="isDel" column="IS_DEL"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="lastModifyBy" column="LAST_MODIFY_BY"/>
+        <result property="lastModifyTime" column="LAST_MODIFY_TIME"/>
+    </resultMap>
+    <sql id="base_query">
+        <![CDATA[
+        SELECT
+            m.ID,
+            m.PARENT_ID,
+            m.`NAME`,
+            m.`CODE`,
+            m.CREATE_BY,
+            m.CREATE_TIME,
+            m.ICON,
+            m.IS_DEL,
+            m.LAST_MODIFY_BY,
+            m.LAST_MODIFY_TIME,
+            m.SORT,
+            m.TYPE,
+            m.URL
+        FROM
+	        sys_menu m
+	         ]]>
+    </sql>
+    <!--根据用户ID查询用户菜单信息 -->
+    <select id="queryMenusByUserId" resultMap="menuResultMap" parameterType="int">
+          <include refid="base_query"></include>
+          <where>
+              m.TYPE in (0,1) and m.IS_DEL = 0
+          </where>
+           order by m.SORT
+    </select>
+    <!--查询所有菜单信息 -->
+    <select id="queryAll" resultMap="menuResultMap">
+        <include refid="base_query"></include>
+        <where>
+            m.IS_DEL = 0
+        </where>
+        order by m.SORT
+    </select>
+    <!-- 根据ID查询菜单 -->
+    <select id="get" resultMap="menuResultMap" parameterType="int">
+        <include refid="base_query"></include>
+        <where>
+            m.ID = #{id}
+        </where>
+    </select>
+    <!--保存菜单 -->
+    <insert id="save" parameterType="com.genealogy.admin.web.model.MenuEntity"
+            useGeneratedKeys="true" keyProperty="menuId">
+        <![CDATA[
+            insert into sys_menu
+            (
+                `PARENT_ID`,
+                `NAME`,
+                `CODE`,
+                `CREATE_BY`,
+                `CREATE_TIME`,
+                `ICON`,
+                `IS_DEL`,
+                `LAST_MODIFY_BY`,
+                `LAST_MODIFY_TIME`,
+                `SORT`,
+                `TYPE`,
+                `URL`
+            )
+            values
+            (
+                #{parentId},
+                #{menuName},
+                #{code},
+                #{createBy},
+                #{createTime},
+                #{menuIcon},
+                #{isDel},
+                #{lastModifyBy},
+                #{lastModifyTime},
+                #{sort},
+                #{menuType},
+                #{menuUrl}
+            )
+		  ]]>
+	</insert>
 
+    <!--更新菜单 -->
+    <update id="update"  parameterType="com.genealogy.admin.web.model.MenuEntity">
+            update sys_menu
+            <set>
+                <if test="parentId != null">`PARENT_ID` = #{parentId}, </if>
+                <if test="menuName != null">`NAME` = #{menuName}, </if>
+                <if test="menuUrl != null">`URL` = #{menuUrl}, </if>
+                <if test="code != null">`CODE` = #{code}, </if>
+                <if test="menuType != null">`TYPE` = #{menuType}, </if>
+                <if test="menuIcon != null">`ICON` = #{menuIcon}, </if>
+                <if test="sort != null">`SORT` = #{sort}, </if>
+                <if test="lastModifyBy != null">`LAST_MODIFY_BY` = #{lastModifyBy}, </if>
+                <if test="lastModifyTime != null">`LAST_MODIFY_TIME` = #{lastModifyTime}</if>
+            </set>
+            where ID = #{menuId}
 
+    </update>
+    <!-- 逻辑删除 -->
+    <update id="delete"  parameterType="int">
+        update sys_menu
+        <set>
+            IS_DEL =1
+        </set>
+        where ID = #{id} or PARENT_ID=#{id}
+    </update>
 </mapper>

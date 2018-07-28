@@ -31,6 +31,8 @@ public class IndexController extends BaseController {
 		return "redirect:/login";
 	}
 
+
+
 	/**
 	 * 主页面请求
 	 *

@@ -14,4 +14,6 @@ public class BaseController {
 	public UserEntity getLoginUser() {
 		return ShiroHelper.getUser();
 	}
+
+
 }

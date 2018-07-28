@@ -13,7 +13,7 @@ public class BaseEntity {
 	/**
 	 * 删除标识 0 未删除、1删除
 	 */
-	private int isDel;
+	private Integer isDel;
 
 	/**
 	 * 创建人

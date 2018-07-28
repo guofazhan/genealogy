@@ -1,5 +1,10 @@
 package com.genealogy.admin.web.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.NotNull;
+
 /**
  * 菜单实体
  *
@@ -23,6 +28,7 @@ public class MenuEntity extends BaseEntity {
 	/**
 	 * 菜单名称
 	 */
+	@NotBlank(message = "菜单名不能为空")
 	private String menuName;
 
 	/**
@@ -33,11 +39,13 @@ public class MenuEntity extends BaseEntity {
 	/**
 	 * 授权(多个用逗号分隔，如：user:list,user:create)
 	 */
-	private String perms;
+	private String code;
 
 	/**
 	 * 类型 0：目录 1：菜单 2：按钮
 	 */
+	@NotNull(message = "菜单类型不能为空")
+	@Range(max=2, min=0,message = "菜单类型必须在合法范围")
 	private Integer menuType;
 
 	/**
@@ -48,7 +56,7 @@ public class MenuEntity extends BaseEntity {
 	/**
 	 * 排序
 	 */
-	private Integer order;
+	private Integer sort;
 
 	public int getMenuId() {
 		return menuId;
@@ -82,12 +90,12 @@ public class MenuEntity extends BaseEntity {
 		this.menuUrl = menuUrl;
 	}
 
-	public String getPerms() {
-		return perms;
+	public String getCode() {
+		return code;
 	}
 
-	public void setPerms(String perms) {
-		this.perms = perms;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public Integer getMenuType() {
@@ -106,20 +114,25 @@ public class MenuEntity extends BaseEntity {
 		this.menuIcon = menuIcon;
 	}
 
-	public Integer getOrder() {
-		return order;
+	public Integer getSort() {
+		return sort;
 	}
 
-	public void setOrder(Integer order) {
-		this.order = order;
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
 
 	@Override
 	public String toString() {
-		return "MenuEntity{" + "menuId=" + menuId + ", parentId=" + parentId
-				+ ", menuName='" + menuName + '\'' + ", menuUrl='" + menuUrl
-				+ '\'' + ", perms='" + perms + '\'' + ", menuType=" + menuType
-				+ ", menuIcon='" + menuIcon + '\'' + ", order=" + order + "} "
-				+ super.toString();
+		return "MenuEntity{" +
+				"menuId=" + menuId +
+				", parentId=" + parentId +
+				", menuName='" + menuName + '\'' +
+				", menuUrl='" + menuUrl + '\'' +
+				", code='" + code + '\'' +
+				", menuType=" + menuType +
+				", menuIcon='" + menuIcon + '\'' +
+				", sort=" + sort +
+				"} " + super.toString();
 	}
 }
