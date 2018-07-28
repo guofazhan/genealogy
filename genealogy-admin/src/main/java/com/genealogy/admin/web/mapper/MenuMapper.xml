@@ -59,7 +59,7 @@
     <select id="get" resultMap="menuResultMap" parameterType="int">
         <include refid="base_query"></include>
         <where>
-            m.ID = #{id}
+            m.ID = #{id} and  m.IS_DEL = 0
         </where>
     </select>
     <!--保存菜单 -->

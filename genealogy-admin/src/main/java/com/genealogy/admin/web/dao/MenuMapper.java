@@ -1,6 +1,7 @@
 package com.genealogy.admin.web.dao;
 
 import com.genealogy.admin.web.model.MenuEntity;
+import com.genealogy.common.Tree;
 
 import java.util.List;
 

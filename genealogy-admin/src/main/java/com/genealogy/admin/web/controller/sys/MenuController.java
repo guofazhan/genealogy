@@ -3,6 +3,7 @@ package com.genealogy.admin.web.controller.sys;
 import com.genealogy.admin.web.controller.BaseController;
 import com.genealogy.admin.web.model.MenuEntity;
 import com.genealogy.admin.web.service.IMenuService;
+import com.genealogy.common.Tree;
 import com.genealogy.common.annotation.ParamVailds;
 import com.genealogy.common.response.RespCode;
 import com.genealogy.common.response.RespHelper;
@@ -120,6 +121,26 @@ public class MenuController extends BaseController {
 		return RespHelper.buildResponseMessage(RespCode.SUCCESS, null);
 	}
 
+	/**
+	 * 获取菜单树
+	 * @return
+	 */
+	@PostMapping(value = "/tree")
+	@ResponseBody
+	public ResponseMessage tree() {
+		Tree tree = menuService.queryMenuTree();
+		return RespHelper.buildResponseMessage(RespCode.SUCCESS, tree);
+	}
 
-
+	/**
+	 * 根据角色ID获取菜单树
+	 * @param roleId
+	 * @return
+	 */
+	@PostMapping("/tree/{roleId}")
+	@ResponseBody
+	ResponseMessage tree(@PathVariable("roleId") Integer roleId) {
+		Tree tree = menuService.queryMenuTreeByRoleId(roleId);
+		return RespHelper.buildResponseMessage(RespCode.SUCCESS, tree);
+	}
 }

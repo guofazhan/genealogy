@@ -1,10 +1,13 @@
 package com.genealogy.admin.configure.web;
 
+import com.alibaba.druid.support.http.StatViewServlet;
+import com.alibaba.druid.support.http.WebStatFilter;
 import com.genealogy.admin.web.filter.XssFilter;
 import com.genealogy.admin.web.listener.InitListener;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -44,6 +47,28 @@ public class WebConfigure {
 		initParameters.put("excludes", "/favicon.ico,/img/*,/js/*,/css/*");
 		initParameters.put("isIncludeRichText", "true");
 		filterRegistrationBean.setInitParameters(initParameters);
+		return filterRegistrationBean;
+	}
+
+	@Bean
+	public ServletRegistrationBean druidServlet() {
+		ServletRegistrationBean reg = new ServletRegistrationBean();
+		reg.setServlet(new StatViewServlet());
+		reg.addUrlMappings("/druid/*");
+		reg.addInitParameter("allow", ""); //白名单
+		return reg;
+	}
+
+	@Bean
+	public FilterRegistrationBean filterRegistrationBean() {
+		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+		filterRegistrationBean.setFilter(new WebStatFilter());
+		filterRegistrationBean.addUrlPatterns("/*");
+		filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
+		filterRegistrationBean.addInitParameter("profileEnable", "true");
+		filterRegistrationBean.addInitParameter("principalCookieName","USER_COOKIE");
+		filterRegistrationBean.addInitParameter("principalSessionName","USER_SESSION");
+		filterRegistrationBean.addInitParameter("DruidWebStatFilter","/*");
 		return filterRegistrationBean;
 	}
 

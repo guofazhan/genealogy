@@ -1,6 +1,7 @@
 package com.genealogy.admin.web.service.impl;
 
 import com.genealogy.admin.web.dao.MenuMapper;
+import com.genealogy.admin.web.dao.RoleMenuMapper;
 import com.genealogy.admin.web.model.EntityHelper;
 import com.genealogy.admin.web.model.MenuEntity;
 import com.genealogy.admin.web.service.IMenuService;
@@ -24,11 +25,39 @@ public class MenuServiceImpl implements IMenuService {
 	@Resource
 	private MenuMapper menuMapper;
 
+	@Resource
+	private RoleMenuMapper roleMenuMapper;
+
 	@Override
 	public Tree queryMenuTreeByUserId(Integer userId) {
 		//根据用户ID查询菜单信息
 		List<MenuEntity> menus = menuMapper.queryMenusByUserId(0);
-		return builMenuTree(menus);
+		return builMenuTree(menus,null);
+	}
+
+	@Override
+	public Tree queryMenuTreeByRoleId(Integer roleId) {
+		//查询所有菜单
+		List<MenuEntity> menus = menuMapper.queryAll();
+		//构建树信息
+		// 查询给定角色ID的所有菜单ID
+		List<Integer> menuIds =  roleMenuMapper.queryMenuIdsByRoleId(roleId);
+//		List<Integer> temp = menuIds;
+//		for(MenuEntity menuEntity: menus){
+//			if (temp.contains(menuEntity.getParentId())) {
+//				menuIds.remove(menuEntity.getParentId());
+//			}
+//		}
+        System.out.println("角色对应的菜单ID：" + menuIds);
+		Tree tree = builMenuTree(menus,menuIds);
+		return tree;
+	}
+
+	@Override
+	public Tree queryMenuTree() {
+		//查询所有菜单
+		List<MenuEntity> menus = menuMapper.queryAll();
+		return builMenuTree(menus,null);
 	}
 
 	@Override
@@ -68,10 +97,11 @@ public class MenuServiceImpl implements IMenuService {
 	/**
 	 * 构建左菜单栏树结构
 	 * @param menus
+	 * @param menuIds
 	 * @return
 	 */
-	private Tree builMenuTree(List<MenuEntity> menus){
-		return buildTree(getRoot(),menus);
+	private Tree builMenuTree(List<MenuEntity> menus,List<Integer> menuIds){
+		return buildTree(getRoot(),menus, menuIds);
 	}
 
 	/**
@@ -80,7 +110,7 @@ public class MenuServiceImpl implements IMenuService {
 	 * @param menus
 	 * @return
 	 */
-	private Tree buildTree(MenuEntity current, List<MenuEntity> menus){
+	private Tree buildTree(MenuEntity current, List<MenuEntity> menus,List<Integer> menuIds){
 		Map<String, Object> attributes = new HashMap<>(1);
 		attributes.put("icon", current.getMenuIcon());
 		attributes.put("url", current.getMenuUrl());
@@ -92,15 +122,40 @@ public class MenuServiceImpl implements IMenuService {
 					.setHasChildren(false).setParentId(current.getParentId() + "")
 					.build();
 		}
+
 		List<Tree> currentChilds = new ArrayList<>();
 		for(MenuEntity menu:menus){
 			if(menu.getParentId() ==current.getMenuId()){
 				//继续查找子节点
-				currentChilds.add(buildTree(menu,menus));
+				currentChilds.add(buildTree(menu,menus,menuIds));
+			}
+		}
+
+		if(current.getMenuId() == 0){
+			//构建是否选中状态与打开状态
+			Map<String, Object> state = new HashMap<>(1);
+			state.put("opened", true);
+			//构建树结构
+			return Tree.newBuilder().setId(current.getMenuId() + "").setState(state).setChecked(true)
+					.setText(current.getMenuName()).setAttributes(attributes)
+					.setChildren(currentChilds).setHasParent(false)
+					.setHasChildren(currentChilds.isEmpty()?false:true).setParentId(current.getParentId() + "")
+					.build();
+		}
+
+		//构建是否选中状态
+		Map<String, Object> state = new HashMap<>(1);
+
+		if(currentChilds.isEmpty()){
+			if(menuIds != null && !menuIds.isEmpty() && menuIds.contains(current.getMenuId())){
+				state.put("selected", true);
+			}
+			else{
+				state.put("selected", false);
 			}
 		}
 		//构建树结构
-		return Tree.newBuilder().setId(current.getMenuId() + "")
+		return Tree.newBuilder().setId(current.getMenuId() + "").setState(state)
 				.setText(current.getMenuName()).setAttributes(attributes)
 				.setChildren(currentChilds).setHasParent(true)
 				.setHasChildren(currentChilds.isEmpty()?false:true).setParentId(current.getParentId() + "")

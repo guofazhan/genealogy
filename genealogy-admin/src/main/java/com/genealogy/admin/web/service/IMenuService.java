@@ -24,6 +24,19 @@ public interface IMenuService {
 	Tree queryMenuTreeByUserId(Integer userId);
 
 	/**
+	 * 根据角色ID获取菜单树
+	 * @param roleId
+	 * @return
+	 */
+	Tree queryMenuTreeByRoleId(Integer roleId);
+
+	/**
+	 * 查询菜单树
+	 * @return
+	 */
+	Tree queryMenuTree();
+
+	/**
 	 * 查询所有菜单信息
 	 *
 	 * @return
