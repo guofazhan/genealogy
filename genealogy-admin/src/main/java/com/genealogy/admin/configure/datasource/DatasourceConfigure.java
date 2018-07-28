@@ -1,7 +1,6 @@
 package com.genealogy.admin.configure.datasource;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import com.genealogy.admin.common.datasource.SecurityDruidDataSource;
+import com.genealogy.common.datasource.SecurityDruidDataSource;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,6 +8,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
+
+import javax.sql.DataSource;
 
 /**
  * @author guofazhan
@@ -38,7 +39,7 @@ public class DatasourceConfigure {
 	 */
 	@Bean
 	@Qualifier("defaultDataSource")
-	public DruidDataSource druidDataSource() {
+	public DataSource druidDataSource() {
 		Assert.notNull(datasourceProperties.getDefaultDataSource(),
 				"DataSource Properties must not be null");
 		logger.info("Init DataSource By Properties:{}",

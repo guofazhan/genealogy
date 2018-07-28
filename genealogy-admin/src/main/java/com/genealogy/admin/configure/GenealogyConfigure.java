@@ -1,6 +1,8 @@
 package com.genealogy.admin.configure;
 
 import com.genealogy.admin.configure.datasource.DatasourceConfigure;
+import com.genealogy.admin.configure.mybatis.MybatisConfigure;
+import com.genealogy.admin.configure.shiro.ShiroConfigure;
 import com.genealogy.admin.configure.web.WebConfigure;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.Import;
  * @since [产品/模块版本]
  */
 @Configuration
-@Import({ DatasourceConfigure.class, WebConfigure.class })
+@Import({ DatasourceConfigure.class, MybatisConfigure.class, WebConfigure.class,
+		ShiroConfigure.class })
 public class GenealogyConfigure {
 }

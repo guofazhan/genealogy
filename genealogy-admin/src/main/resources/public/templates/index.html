@@ -1,34 +1,26 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="app" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="temp">
-<body>
-
-    <aside layout:fragment="content">
-        <section class="vbox">
-            <header class="header bg-white b-b clearfix">
-                <div class="row m-t-sm">
-                    <div class="col-sm-8 m-b-xs">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-default action-refresh" title="Refresh"><i class="fa fa-refresh"></i></button>
-                        </div>
-                        <a href="${BASE_URL}/adminUser/add" class="btn btn-sm btn-default load-content"><i class="fa fa-plus"></i> 添加</a>
-                    </div>
-                    <form action="${BASE_URL}/adminUser/page" id="searchForm">
-                        <div class="col-sm-4 m-b-xs">
-                            <div class="input-group">
-                                <input type="text" name="key" class="input-sm form-control" placeholder="请输入用户名或用户全称" />
-                                <span class="input-group-btn">
-                <button class="btn btn-sm btn-default action-refresh" type="button">搜索</button>
-            </span>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </header>
-
+<html lang="zh-CN" class="app" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="template::commonHeader('Y 网 · 家系信息平台')"></head>
+<body class="fixed-sidebar full-height-layout gray-bg skin-1" style="overflow: hidden">
+<section id="wrapper">
+    <!--左侧导航开始-->
+    <section th:replace="template::commonLeftAside(showName=${showName},menuTree=${menuTree})"></section>
+    <!--左侧导航结束-->
+    <!--右侧部分开始-->
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <section th:replace="template::contentHeader"></section>
+        <section th:replace="template::contentTab"></section>
+        <section class="row J_mainContent" id="content-main">
+            <iframe class="J_iframe" name="iframe0" width="100%" height="100%"
+                    src="" th:src="@{/home}" frameborder="0" data-id="home"
+                    seamless></iframe>
         </section>
-    </aside>
-
+        <section th:replace="template::contentFooter"></section>
+    </div>
+    <!--右侧部分结束-->
+    <!--右侧边栏开始-->
+    <section th:replace="template::commonRightAside"></section>
+</section>
+<section th:include="template::commonScript"></section>
 </body>
 </html>
