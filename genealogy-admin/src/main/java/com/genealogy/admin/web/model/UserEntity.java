@@ -1,5 +1,6 @@
 package com.genealogy.admin.web.model;
 
+
 /**
  * 用户实体
  *
@@ -31,19 +32,36 @@ public class UserEntity extends BaseEntity {
 	private int isLock;
 
 	/**
-	 * 单位ID
+	 * 职位信息
 	 */
-	private int instituionId;
-
-	/**
-	 * z职位ID
-	 */
-	private int positionId;
+	private String position;
 
 	/**
 	 * 显示名
 	 */
 	private String showName;
+
+	/**
+	 * 邮箱
+	 */
+	private String email;
+
+
+	/**
+	 * 手机号
+	 */
+	private String mobile;
+
+
+	/**
+	 * 性别 0 男 1 女
+	 */
+	private Integer sex;
+
+	/**
+	 * 住地
+	 */
+	private String address;
 
 	public int getUserId() {
 		return userId;
@@ -77,22 +95,6 @@ public class UserEntity extends BaseEntity {
 		this.isLock = isLock;
 	}
 
-	public int getInstituionId() {
-		return instituionId;
-	}
-
-	public void setInstituionId(int instituionId) {
-		this.instituionId = instituionId;
-	}
-
-	public int getPositionId() {
-		return positionId;
-	}
-
-	public void setPositionId(int positionId) {
-		this.positionId = positionId;
-	}
-
 	public String getShowName() {
 		return showName;
 	}
@@ -101,12 +103,60 @@ public class UserEntity extends BaseEntity {
 		this.showName = showName;
 	}
 
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public Integer getSex() {
+		return sex;
+	}
+
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	@Override
 	public String toString() {
-		return "UserEntity{" + "userId=" + userId + ", loginName='" + loginName
-				+ '\'' + ", password='" + password + '\'' + ", isLock=" + isLock
-				+ ", instituionId=" + instituionId + ", positionId="
-				+ positionId + ", showName='" + showName + '\'' + "} " + super
-				.toString();
+		return "UserEntity{" +
+				"userId=" + userId +
+				", loginName='" + loginName + '\'' +
+				", password='" + password + '\'' +
+				", isLock=" + isLock +
+				", position='" + position + '\'' +
+				", showName='" + showName + '\'' +
+				", email='" + email + '\'' +
+				", mobile='" + mobile + '\'' +
+				", sex=" + sex +
+				", address='" + address + '\'' +
+				"} " + super.toString();
 	}
 }

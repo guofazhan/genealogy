@@ -153,3 +153,6 @@ function edit(id) {
         content: prefix + '/edit/' + id
     });
 }
+function refresh() {
+    reLoad();
+}
