@@ -2,9 +2,9 @@ package com.genealogy.common.aspect;
 
 import com.genealogy.common.ValidException;
 import com.genealogy.common.utils.ValidatorHelper;
-import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class ParamVaildAspect {
 	private static final Logger logger = LoggerFactory
 			.getLogger(ParamVaildAspect.class);
 
-	@Pointcut("@within(com.genealogy.common.annotation.ParamVailds)")
+	@Pointcut("@annotation(com.genealogy.common.annotation.ParamVailds)")
 	public void paramVaild() {
 
 	}
@@ -43,8 +43,8 @@ public class ParamVaildAspect {
 	 * @param joinPoint
 	 * @throws Throwable
 	 */
-	@Before("paramVaild()")
-	public void doBefore(JoinPoint joinPoint) throws Throwable {
+	@Around("paramVaild()")
+	public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 		Object[] args = joinPoint.getArgs();
 		if (args != null) {
 			for (Object arg : args) {
@@ -55,6 +55,7 @@ public class ParamVaildAspect {
 				}
 			}
 		}
+		return joinPoint.proceed();
 	}
 
 	/**
