@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html  lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+    <meta charset="utf-8">
+    <head th:replace="include :: header"></head>
+    <body class="gray-bg">
+    <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <form class="form-horizontal m-t" id="editForm">
+                                <input id="parentId" name="parentId" type="hidden" th:value="${parentId}" />
+                                <input id="areaId" name="areaId" type="hidden" th:value="${area.areaId}" />
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">上级地区：</label>
+                                    <div class="col-sm-8">
+                                        <input id="" name="" class="form-control" type="text" th:value="${parentName}" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">地区名称：</label>
+                                    <div class="col-sm-8">
+                                        <input id="areaName" name="areaName" class="form-control" type="text" th:value="${area.areaName}" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">地区编码：</label>
+                                    <div class="col-sm-8">
+                                        <input id="areaCode" name="areaCode" class="form-control" type="text" th:value="${area.areaCode}" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">排序号：</label>
+                                    <div class="col-sm-8">
+                                        <input id="sort" name="sort" class="form-control"  th:value="${area.sort}" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">描述：</label>
+                                    <div class="col-sm-8">
+                                        <input id="remark" name="remark" class="form-control"  th:value="${area.remark}" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-8 col-sm-offset-3">
+                                        <button type="submit" class="btn btn-info">提交</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="include::footer"></div>
+        <script th:src="@{/modules/system/area/js/edit.js}"></script>
+    </body>
+
+</html>
