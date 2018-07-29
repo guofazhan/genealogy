@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
-@ParamVailds
 @Controller
 @RequestMapping("/sys/area")
 public class AreaController extends BaseController {

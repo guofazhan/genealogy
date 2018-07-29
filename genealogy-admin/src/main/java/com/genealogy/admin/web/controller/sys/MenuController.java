@@ -24,7 +24,6 @@ import java.util.List;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
-@ParamVailds
 @Controller
 @RequestMapping("/sys/menu")
 public class MenuController extends BaseController {
@@ -86,6 +85,7 @@ public class MenuController extends BaseController {
 	 * @param entity
 	 * @return
 	 */
+	@ParamVailds
 	@PostMapping(value = "/save")
 	@ResponseBody
 	public ResponseMessage save(MenuEntity entity) {

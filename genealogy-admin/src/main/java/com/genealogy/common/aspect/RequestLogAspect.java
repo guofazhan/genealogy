@@ -29,10 +29,8 @@ public class RequestLogAspect {
 	 */
 	ThreadLocal<Long> startTime = new ThreadLocal<>();
 
-	/**
-	 * 两个..代表所有子目录，最后括号里的两个..代表所有参数
-	 */
-	@Pointcut("execution( * com.genealogy..controller.*.*(..))")
+
+	@Pointcut("@within(org.springframework.stereotype.Controller)")
 	public void logPointCut() {
 	}
 

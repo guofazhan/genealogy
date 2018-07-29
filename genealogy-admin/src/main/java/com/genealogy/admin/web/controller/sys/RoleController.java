@@ -24,7 +24,6 @@ import java.util.List;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
-@ParamVailds
 @Controller
 @RequestMapping("/sys/role")
 public class RoleController extends BaseController {
@@ -84,6 +83,7 @@ public class RoleController extends BaseController {
      * @param vo
      * @return
      */
+    @ParamVailds
     @PostMapping(value = "/save")
     @ResponseBody
     public ResponseMessage save(RoleAddAndEditReqVo vo) {
@@ -97,6 +97,7 @@ public class RoleController extends BaseController {
      * @param vo
      * @return
      */
+    @ParamVailds
     @PostMapping(value = "/edit")
     @ResponseBody
     public ResponseMessage update(RoleAddAndEditReqVo vo) {

@@ -1,11 +1,20 @@
 package com.genealogy.admin.web.controller.sys;
 
 import com.genealogy.admin.web.controller.BaseController;
+import com.genealogy.admin.web.model.PositionEntity;
+import com.genealogy.admin.web.service.IPositionService;
+import com.genealogy.admin.web.vo.PositionReqVo;
 import com.genealogy.common.annotation.ParamVailds;
+import com.genealogy.common.response.RespCode;
+import com.genealogy.common.response.RespHelper;
+import com.genealogy.common.response.ResponseMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 职位管理控制层
@@ -14,12 +23,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
-@ParamVailds
 @Controller
 @RequestMapping("/sys/position")
 public class PositionController extends BaseController {
 
     private static final String PREFIX = "system/position";
+
+    @Autowired
+    private IPositionService positionService;
 
     /**
      * 职位管理入口
@@ -30,5 +41,82 @@ public class PositionController extends BaseController {
     @GetMapping()
     String index(Model model) {
         return PREFIX + "/index";
+    }
+
+    /**
+     * 职位添加
+     * @param model
+     * @return
+     */
+    @GetMapping("/add")
+    String add(Model model) {
+        return PREFIX + "/add";
+    }
+
+    /**
+     * 职位编辑
+     * @param model
+     * @param positionId
+     * @return
+     */
+    @GetMapping("/edit/{id}")
+    String edit(Model model, @PathVariable("id") Integer positionId) {
+        PositionEntity positionEntity = positionService.get(positionId);
+        model.addAttribute("position", positionEntity);
+        return PREFIX + "/edit";
+    }
+
+    /**
+     * 职位管理分页查询
+     * @param vo
+     * @return
+     */
+    @PostMapping(value = "/page")
+    @ResponseBody
+    public List<PositionEntity> page(PositionReqVo vo) {
+        return positionService.queryAll();
+    }
+
+    /**
+     * 添加职位信息
+     * @param entity
+     * @return
+     */
+    @ParamVailds
+    @PostMapping(value = "/save")
+    @ResponseBody
+    public ResponseMessage save(PositionEntity entity) {
+        System.out.println("保存职位信息:" + entity);
+        positionService.save(entity);
+        return RespHelper.buildResponseMessage(RespCode.SUCCESS, null);
+    }
+
+    /**
+     * 更新职位信息
+     * @param entity
+     * @return
+     */
+    @ParamVailds
+    @PostMapping(value = "/edit")
+    @ResponseBody
+    public ResponseMessage update(PositionEntity entity) {
+        if(positionService.update(entity)<=0){
+            return RespHelper.buildResponseMessage(RespCode.COMM_FAIL,null);
+        }
+        return RespHelper.buildResponseMessage(RespCode.SUCCESS, null);
+    }
+
+    /**
+     * 删除ID
+     * @param id
+     * @return
+     */
+    @PostMapping(value = "/remove")
+    @ResponseBody
+    public ResponseMessage remove(@NotNull(message = "ID 不能为空") Integer id) {
+        if(positionService.delete(id)<=0){
+            return RespHelper.buildResponseMessage(RespCode.COMM_FAIL,null);
+        }
+        return RespHelper.buildResponseMessage(RespCode.SUCCESS, null);
     }
 }

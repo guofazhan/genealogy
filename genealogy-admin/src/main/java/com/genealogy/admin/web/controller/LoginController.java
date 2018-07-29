@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
-@ParamVailds
 @Controller
 public class LoginController extends BaseController {
 
@@ -42,6 +41,10 @@ public class LoginController extends BaseController {
 		return "login";
 	}
 
+
+
+
+	@ParamVailds
 	@PostMapping(value = "/signin")
 	public @ResponseBody
 	ResponseMessage signIn(LoginReqVo reqVo) {

@@ -1,5 +1,7 @@
 package com.genealogy.admin.web.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * 职位实体
  *
@@ -18,6 +20,7 @@ public class PositionEntity extends BaseEntity{
     /**
      * 职位名称
      */
+    @NotBlank(message = "职位名不能为空")
     private String positionName;
 
     /**
