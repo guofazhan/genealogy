@@ -57,6 +57,6 @@ public class IndexController extends BaseController {
 	 */
 	@GetMapping({ "/home" })
 	public String home(Model model) {
-		return "/home/index";
+		return "home/index";
 	}
 }
