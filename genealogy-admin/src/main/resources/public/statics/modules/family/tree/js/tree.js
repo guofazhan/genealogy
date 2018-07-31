@@ -1,3 +1,10 @@
+var prefix = CTX_URL +"/modules/family/tree/"
+
+$(document).ready(function () {
+   init();
+});
+
+
 function init() {
     // for conciseness in defining templates
     var GO = go.GraphObject.make;
@@ -117,7 +124,7 @@ function init() {
         if (clicked !== null) {
             var thisemp = clicked.data;
             myDiagram.startTransaction("add employee");
-            var newemp = { key: getNextKey(), name: "(new person)", title: "", parent: thisemp.key };
+            var newemp = { key: getNextKey(), name: "(new person)", card: "",line:"", parent: thisemp.key };
             myDiagram.model.addNodeData(newemp);
             myDiagram.commitTransaction("add employee");
         }
@@ -229,7 +236,6 @@ function init() {
                             myDiagram.model.setDataProperty(thisemp, "name", "(Vacant)");
                             myDiagram.model.setDataProperty(thisemp, "card", "");
                             myDiagram.model.setDataProperty(thisemp, "line", "");
-                            myDiagram.model.setDataProperty(thisemp, "comments", "");
                             myDiagram.commitTransaction("vacate");
                         }
                     }
@@ -279,7 +285,7 @@ function init() {
                         if (node !== null) {
                             var thisemp = obj.part.data;
                             myDiagram.startTransaction("add employee");
-                            var newemp = { key: getNextKey(), name: "(new person)", card: "",line:"", parent: node.key };
+                            var newemp = { key: getNextKey(), name: "(new person)", card: "",line:"",parent: node.key };
                             myDiagram.model.addNodeData(newemp);
                             myDiagram.commitTransaction("add employee");
                         }
@@ -325,8 +331,8 @@ function textStyle() {
 //根据KEY获取图标信息
 function findHeadShot(key) {
     // There are only 16 images on the server
-    if (key < 0 || key > 16) return "images/HSnopic.png";
-    return "images/HS" + key + ".png"
+    if (key < 0 || key > 16) return prefix+"/images/HSnopic.png";
+    return  prefix+"/images/HS" + key + ".png"
 }
 
 function load() {

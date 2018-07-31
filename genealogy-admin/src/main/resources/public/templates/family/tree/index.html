@@ -5,11 +5,22 @@
 <head th:replace="include :: header"></head>
 <body class="gray-bg">
 <div class="wrapper wrapper-content ">
-    <div class="col-sm-12">
-        功能待开发
+    <div class="ibox">
+        <div class="ibox-body">
+            <div id="exampleToolbar" role="group" class="t-bar">
+               <span>家系图样例</span>
+            </div>
+            <div id="sample">
+                <div id="myDiagramDiv" style="background-color: lightgoldenrodyellow; border: solid 1px black; height: 500px"></div>
+                <div><div id="myInspector"></div></div>
+            </div>
+        </div>
     </div>
 </div>
 <div th:replace="include::footer"></div>
+<script th:src="@{/modules/family/tree/js/go.js}"></script>
+<link th:href="@{/modules/family/tree/css/dataInspector.css}" rel="stylesheet"/>
+<script th:src="@{/modules/family/tree/js/dataInspector.js}"></script>
+<script th:src="@{/modules/family/tree/js/tree.js}"></script>
 </body>
-
 </html>
