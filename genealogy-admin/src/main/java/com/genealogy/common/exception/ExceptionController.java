@@ -29,15 +29,17 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 public class ExceptionController implements ErrorController {
-	private Logger logger = LoggerFactory
-			.getLogger(ExceptionController.class);
+	private Logger logger = LoggerFactory.getLogger(ExceptionController.class);
 	private static final String ERROR_PATH = "/error";
+
+	private static final String PREFIX = "error";
 
 	@Autowired
 	ErrorAttributes errorAttributes;
 
 	/**
 	 * 错误页面返回
+	 *
 	 * @param request
 	 * @param response
 	 * @return
@@ -45,22 +47,27 @@ public class ExceptionController implements ErrorController {
 	@RequestMapping(value = { ERROR_PATH }, produces = { "text/html" })
 	public ModelAndView errorHtml(HttpServletRequest request,
 			HttpServletResponse response) {
-		logger.info("进入错误页面。。。。。。。。。。。。。。。。。。");
+		logger.error("errorHtml", getError(request));
 		int code = response.getStatus();
-		if (404 == code) {
-			return new ModelAndView("error/404");
-		} else if (403 == code) {
-			return new ModelAndView("error/403");
-		} else if (401 == code) {
-			return new ModelAndView("login");
-		} else {
-			return new ModelAndView("error/500");
+		String viewName;
+		switch (code) {
+		case 404:
+			viewName = PREFIX + "/404";
+			break;
+		case 403:
+			viewName = PREFIX + "/403";
+			break;
+		default:
+			viewName = PREFIX + "/500";
+			break;
 		}
 
+		return new ModelAndView(viewName);
 	}
 
 	/**
 	 * json 错误返回
+	 *
 	 * @param request
 	 * @return
 	 */
@@ -89,12 +96,14 @@ public class ExceptionController implements ErrorController {
 		System.out.println("异常信息:" + throwable);
 		if (throwable instanceof BaseException
 				|| throwable instanceof ValidException) {
-			resMessage = RespHelper.buildResponseMessage((BaseException) throwable);
+			resMessage = RespHelper
+					.buildResponseMessage((BaseException) throwable);
 		} else if (throwable instanceof UnknownAccountException) {
 			resMessage = RespHelper
 					.buildResponseMessage(RespCode.ACCOUNT_ERROR, null);
 		} else if (throwable instanceof LockedAccountException) {
-			resMessage = RespHelper.buildResponseMessage(RespCode.ACCOUNT_LOCK, null);
+			resMessage = RespHelper
+					.buildResponseMessage(RespCode.ACCOUNT_LOCK, null);
 		}
 
 		return resMessage;
