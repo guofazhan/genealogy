@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author guofazhan
@@ -50,6 +51,8 @@ public class CustomShiroRealm extends AuthorizingRealm {
 			PrincipalCollection principalCollection) {
 		Set<String> codes = menuService
 				.queryCodesByUserId(ShiroHelper.getUser().getUserId());
+		//去除空值
+		codes = codes.stream().filter((v) -> !(null == v || "".equals(v.trim()))).collect(Collectors.toSet());
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		info.setStringPermissions(codes);
 		logger.info("Query User：{} has codes：{}",
@@ -70,7 +73,8 @@ public class CustomShiroRealm extends AuthorizingRealm {
 			AuthenticationToken authenticationToken)
 			throws AuthenticationException {
 		String loginName = (String) authenticationToken.getPrincipal();
-		String password = new String((char[]) authenticationToken.getCredentials());
+		String password = new String(
+				(char[]) authenticationToken.getCredentials());
 		UserEntity user = userService.login(loginName, password);
 		// 账号不存在
 		if (user == null) {
