@@ -5,7 +5,6 @@ import com.genealogy.common.annotation.ParamVailds;
 import com.genealogy.common.response.RespCode;
 import com.genealogy.common.response.RespHelper;
 import com.genealogy.common.response.ResponseMessage;
-import com.genealogy.common.utils.PasswordUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.slf4j.LoggerFactory;

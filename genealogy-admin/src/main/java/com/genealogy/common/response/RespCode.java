@@ -49,6 +49,16 @@ public class RespCode {
 			"系统繁忙，请稍后再试！", "安全校验失败");
 
 	/**
+	 * 账号错误
+	 */
+	public static RespCode ACCOUNT_ERROR = new RespCode("000007", "账号或密码不正确", "登录失败");
+
+	/**
+	 * 账号锁
+	 */
+	public static RespCode ACCOUNT_LOCK = new RespCode("000008", "账号已被锁定,请联系管理员", "登录失败");
+
+	/**
 	 * 返回编码
 	 */
 	private final String code;

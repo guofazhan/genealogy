@@ -1,6 +1,6 @@
 package com.genealogy.common.aspect;
 
-import com.genealogy.common.ValidException;
+import com.genealogy.common.exception.ValidException;
 import com.genealogy.common.utils.ValidatorHelper;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

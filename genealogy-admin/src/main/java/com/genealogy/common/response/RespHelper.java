@@ -1,6 +1,6 @@
 package com.genealogy.common.response;
 
-import com.genealogy.common.BaseException;
+import com.genealogy.common.exception.BaseException;
 
 /**
  * 响应帮助类

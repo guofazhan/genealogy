@@ -1,6 +1,6 @@
 package com.genealogy.common.utils;
 
-import com.genealogy.common.ValidException;
+import com.genealogy.common.exception.ValidException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;

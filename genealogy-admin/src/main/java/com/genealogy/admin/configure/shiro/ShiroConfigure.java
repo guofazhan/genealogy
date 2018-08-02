@@ -57,6 +57,7 @@ public class ShiroConfigure {
 		//开放接口
 		filterChainDefinitionMap.put("/login", "anon");
 		filterChainDefinitionMap.put("/signin", "anon");
+		filterChainDefinitionMap.put("/error", "anon");
 		filterChainDefinitionMap.put("/html/**", "anon");
 		filterChainDefinitionMap.put("/plugins/**", "anon");
 		filterChainDefinitionMap.put("/modules/**", "anon");

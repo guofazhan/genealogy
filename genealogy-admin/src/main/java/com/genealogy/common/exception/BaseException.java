@@ -1,4 +1,4 @@
-package com.genealogy.common;
+package com.genealogy.common.exception;
 
 import com.genealogy.common.response.RespCode;
 
