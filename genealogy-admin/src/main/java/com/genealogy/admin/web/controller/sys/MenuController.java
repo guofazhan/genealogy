@@ -41,7 +41,7 @@ public class MenuController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("sys:menu:add")
+	//@RequiresPermissions("sys:menu:add")
 	@GetMapping("/add/{pId}")
 	String add(Model model, @PathVariable("pId") Integer parentId) {
 		model.addAttribute("parentId", parentId);
@@ -61,7 +61,7 @@ public class MenuController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("sys:menu:edit")
+	//@RequiresPermissions("sys:menu:edit")
 	@GetMapping("/edit/{id}")
 	String edit(Model model, @PathVariable("id") Integer menuId) {
 		MenuEntity menu = menuService.get(menuId);

@@ -33,7 +33,7 @@ public class PasswordUtils {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(PasswordUtils.encrypt("admin", "1"));
+		System.out.println(PasswordUtils.encrypt("guofazhan", "12345678"));
 		System.out.println(PasswordUtils.encrypt("1"));
 	}
 }

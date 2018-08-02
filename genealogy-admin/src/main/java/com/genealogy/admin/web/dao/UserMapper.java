@@ -5,6 +5,7 @@ import com.genealogy.admin.web.vo.UserReqVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户信息数据库操作接口
@@ -20,11 +21,10 @@ public interface UserMapper {
 	/**
 	 * 查询用户根据用户名以及密码
 	 *
-	 * @param loginName
-	 * @param password
+	 * @param loginMap
 	 * @return
 	 */
-	UserEntity queryUserByNameAndPassword(String loginName, String password);
+	UserEntity queryUserByNameAndPassword(Map<String,String> loginMap);
 
 	/**
 	 * 根据参数查询

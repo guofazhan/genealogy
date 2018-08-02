@@ -41,20 +41,14 @@ public class LoginController extends BaseController {
 		return "login";
 	}
 
-
-
-
 	@ParamVailds
 	@PostMapping(value = "/signin")
 	public @ResponseBody
 	ResponseMessage signIn(LoginReqVo reqVo) {
-		//加密后密码
-		String encryptPassword = PasswordUtils
-				.encrypt(reqVo.getLoginName(), reqVo.getPassword());
 		//用户登录鉴权
 		SecurityUtils.getSubject()
 				.login(new UsernamePasswordToken(reqVo.getLoginName(),
-						encryptPassword));
+						reqVo.getPassword()));
 		return RespHelper.buildResponseMessage(RespCode.SUCCESS, null);
 	}
 }

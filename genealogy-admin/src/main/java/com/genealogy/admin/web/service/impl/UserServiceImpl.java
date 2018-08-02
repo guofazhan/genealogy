@@ -10,7 +10,9 @@ import com.genealogy.common.utils.PasswordUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户服务实现类
@@ -28,14 +30,10 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public UserEntity login(String loginName, String password) {
-		UserEntity userEntity = new UserEntity();
-		userEntity.setUserId(1);
-		userEntity.setLoginName(loginName);
-		userEntity.setIsLock(0);
-		userEntity.setPassword(password);
-		userEntity.setShowName("系统管理员");
-		return userEntity;
-		//return userMapper.queryUserByNameAndPassword(loginName, password);
+		Map<String, String> loginMap = new HashMap<>();
+		loginMap.put("loginName", loginName);
+		loginMap.put("password", PasswordUtils.encrypt(loginName, password));
+		return userMapper.queryUserByNameAndPassword(loginMap);
 	}
 
 	@Override
@@ -43,13 +41,12 @@ public class UserServiceImpl implements IUserService {
 		return userMapper.queryAll();
 	}
 
-
 	@Override
 	public Page<UserEntity> page(UserReqVo vo) {
 		List<UserEntity> list = userMapper.list(vo);
 		int total = userMapper.count(vo);
 		//int page = vo.getOffset() / vo.getLimit() + 1;
-		return new Page<>(list,total,0,vo.getLimit());
+		return new Page<>(list, total, 0, vo.getLimit());
 	}
 
 	@Override
@@ -66,24 +63,25 @@ public class UserServiceImpl implements IUserService {
 	public int save(UserEntity entity) {
 		//补全实体信息
 		EntityHelper.compleSaveEntity(entity);
-		if(null == entity.getPosition()){
+		if (null == entity.getPosition()) {
 			entity.setPosition("");
 			entity.setIsLock(0);
 			entity.setSex(0);
 		}
-		if(null == entity.getAddress()){
+		if (null == entity.getAddress()) {
 			entity.setAddress("");
 		}
 
-		if(null == entity.getEmail()){
+		if (null == entity.getEmail()) {
 			entity.setEmail("");
 		}
 
-		if(null == entity.getMobile()){
+		if (null == entity.getMobile()) {
 			entity.setMobile("");
 		}
-		entity.setPassword(PasswordUtils.encrypt(entity.getLoginName(),entity.getPassword()));
-		if(null == queryUserByName(entity.getLoginName())){
+		entity.setPassword(PasswordUtils
+				.encrypt(entity.getLoginName(), entity.getPassword()));
+		if (null == queryUserByName(entity.getLoginName())) {
 			return userMapper.save(entity);
 		}
 		return 0;
@@ -93,10 +91,11 @@ public class UserServiceImpl implements IUserService {
 	public int update(UserEntity entity) {
 		//补全实体信息
 		EntityHelper.compleUpdateEntity(entity);
-		if(null != entity.getPassword() && !"".equals(entity.getPassword())){
-			entity.setPassword(PasswordUtils.encrypt(entity.getLoginName(),entity.getPassword()));
+		if (null != entity.getPassword() && !"".equals(entity.getPassword())) {
+			entity.setPassword(PasswordUtils
+					.encrypt(entity.getLoginName(), entity.getPassword()));
 		}
-		if(null == queryUserByName(entity.getLoginName())){
+		if (null == queryUserByName(entity.getLoginName())) {
 			return userMapper.update(entity);
 		}
 		return 0;
