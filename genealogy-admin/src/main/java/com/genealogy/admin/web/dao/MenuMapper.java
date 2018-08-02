@@ -4,6 +4,7 @@ import com.genealogy.admin.web.model.MenuEntity;
 import com.genealogy.common.Tree;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜单信息数据库操作接口
@@ -56,4 +57,13 @@ public interface MenuMapper {
 	 * @return
 	 */
 	int delete(Integer id);
+
+
+	/**
+	 * 查询权限编码集合通过用户ID
+	 *
+	 * @param userId
+	 * @return
+	 */
+	Set<String> queryCodesByUserId(Integer userId);
 }

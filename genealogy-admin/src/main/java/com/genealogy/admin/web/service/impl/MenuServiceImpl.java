@@ -94,6 +94,11 @@ public class MenuServiceImpl implements IMenuService {
 		return menuMapper.delete(id);
 	}
 
+	@Override
+	public Set<String> queryCodesByUserId(Integer userId) {
+		return menuMapper.queryCodesByUserId(userId);
+	}
+
 	/**
 	 * 构建左菜单栏树结构
 	 * @param menus

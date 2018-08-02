@@ -1,12 +1,17 @@
 package com.genealogy.admin.web.shiro;
 
 import com.genealogy.admin.web.model.UserEntity;
+import com.genealogy.admin.web.service.IMenuService;
 import com.genealogy.admin.web.service.IUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Set;
 
 /**
  * @author guofazhan
@@ -16,8 +21,23 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class CustomShiroRealm extends AuthorizingRealm {
 
+	/**
+	 * 日志
+	 */
+	private static final org.slf4j.Logger logger = LoggerFactory
+			.getLogger(CustomShiroRealm.class);
+
+	/**
+	 * 用户服务
+	 */
 	@Autowired
 	private IUserService userService;
+
+	/**
+	 * 菜单（权限）服务
+	 */
+	@Autowired
+	private IMenuService menuService;
 
 	/**
 	 * 获取授权信息
@@ -28,7 +48,13 @@ public class CustomShiroRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principalCollection) {
-		return null;
+		Set<String> codes = menuService
+				.queryCodesByUserId(ShiroHelper.getUser().getUserId());
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		info.setStringPermissions(codes);
+		logger.info("Query User：{} has codes：{}",
+				ShiroHelper.getUser().getUserId(), codes);
+		return info;
 	}
 
 	/**
@@ -43,7 +69,6 @@ public class CustomShiroRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken authenticationToken)
 			throws AuthenticationException {
-
 		String loginName = (String) authenticationToken.getPrincipal();
 		String password = new String(
 				(char[]) authenticationToken.getCredentials());

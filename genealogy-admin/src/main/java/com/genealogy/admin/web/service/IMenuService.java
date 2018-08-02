@@ -4,6 +4,7 @@ import com.genealogy.admin.web.model.MenuEntity;
 import com.genealogy.common.Tree;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜单服务接口
@@ -25,6 +26,7 @@ public interface IMenuService {
 
 	/**
 	 * 根据角色ID获取菜单树
+	 *
 	 * @param roleId
 	 * @return
 	 */
@@ -32,6 +34,7 @@ public interface IMenuService {
 
 	/**
 	 * 查询菜单树
+	 *
 	 * @return
 	 */
 	Tree queryMenuTree();
@@ -45,6 +48,7 @@ public interface IMenuService {
 
 	/**
 	 * 根据ID查询菜单信息
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -52,12 +56,14 @@ public interface IMenuService {
 
 	/**
 	 * 保存菜单信息
+	 *
 	 * @param entity
 	 */
 	void save(MenuEntity entity);
 
 	/**
 	 * 更新菜单信息
+	 *
 	 * @param entity
 	 * @return
 	 */
@@ -65,8 +71,17 @@ public interface IMenuService {
 
 	/**
 	 * 删除菜单根据菜单ID(包含删除子菜单信息)
+	 *
 	 * @param id
 	 * @return
 	 */
 	int delete(Integer id);
+
+	/**
+	 * 查询权限编码集合通过用户ID
+	 *
+	 * @param userId
+	 * @return
+	 */
+	Set<String> queryCodesByUserId(Integer userId);
 }

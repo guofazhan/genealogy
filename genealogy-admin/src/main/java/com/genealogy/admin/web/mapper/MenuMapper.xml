@@ -124,4 +124,17 @@
         </set>
         where ID = #{id} or PARENT_ID=#{id}
     </update>
+
+    <!-- 根据用户ID查询权限编码集合 -->
+    <select id="queryCodesByUserId" resultType="string" parameterType="int">
+       SELECT DISTINCT
+          m.`CODE`
+        FROM
+         sys_menu m
+        RIGHT JOIN sys_role_menu rm ON m.ID = rm.MENU_ID AND rm.IS_DEL = 0
+        RIGHT JOIN sys_user_role ur ON UR.IS_DEL = 0 AND rm.ROLE_ID = ur.ROLE_ID
+        AND ur.USER_ID =#{userId}
+        WHERE
+          m.IS_DEL = 0
+    </select>
 </mapper>
