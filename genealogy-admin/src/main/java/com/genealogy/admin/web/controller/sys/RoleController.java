@@ -9,6 +9,7 @@ import com.genealogy.common.annotation.ParamVailds;
 import com.genealogy.common.response.RespCode;
 import com.genealogy.common.response.RespHelper;
 import com.genealogy.common.response.ResponseMessage;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,6 +41,7 @@ public class RoleController extends BaseController {
      * @return
      */
     @GetMapping()
+    @RequiresPermissions("sys:role:index")
     String index(Model model) {
         return PREFIX + "/index";
     }
@@ -50,6 +52,7 @@ public class RoleController extends BaseController {
      * @return
      */
     @GetMapping("/add")
+    @RequiresPermissions("sys:role:add")
     String add(Model model) {
         return PREFIX + "/add";
     }
@@ -61,6 +64,7 @@ public class RoleController extends BaseController {
      * @return
      */
     @GetMapping("/edit/{id}")
+    @RequiresPermissions("sys:role:edit")
     String edit(Model model, @PathVariable("id") Integer roleId) {
         RoleEntity roleEntity = roleService.get(roleId);
         model.addAttribute("role", roleEntity);
@@ -74,6 +78,7 @@ public class RoleController extends BaseController {
      */
     @PostMapping(value = "/page")
     @ResponseBody
+    @RequiresPermissions("sys:role:index")
     public List<RoleEntity> page(RoleReqVo vo) {
         return roleService.queryAll();
     }
@@ -86,6 +91,7 @@ public class RoleController extends BaseController {
     @ParamVailds
     @PostMapping(value = "/save")
     @ResponseBody
+    @RequiresPermissions("sys:role:add")
     public ResponseMessage save(RoleAddAndEditReqVo vo) {
         System.out.println("保存角色信息:" + vo);
         roleService.save(vo);
@@ -100,6 +106,7 @@ public class RoleController extends BaseController {
     @ParamVailds
     @PostMapping(value = "/edit")
     @ResponseBody
+    @RequiresPermissions("sys:role:edit")
     public ResponseMessage update(RoleAddAndEditReqVo vo) {
         if(roleService.update(vo)<=0){
             return RespHelper.buildResponseMessage(RespCode.COMM_FAIL,null);
@@ -115,6 +122,7 @@ public class RoleController extends BaseController {
      */
     @PostMapping(value = "/remove")
     @ResponseBody
+    @RequiresPermissions("sys:role:remove")
     public ResponseMessage remove(@NotNull(message = "ID 不能为空") Integer id) {
         if(roleService.delete(id)<=0){
             return RespHelper.buildResponseMessage(RespCode.COMM_FAIL,null);

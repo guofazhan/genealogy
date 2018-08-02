@@ -7,6 +7,7 @@ import com.genealogy.common.annotation.ParamVailds;
 import com.genealogy.common.response.RespCode;
 import com.genealogy.common.response.RespHelper;
 import com.genealogy.common.response.ResponseMessage;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +38,7 @@ public class AreaController extends BaseController {
      * @param model
      * @return
      */
+    @RequiresPermissions("sys:area:index")
     @GetMapping()
     String index(Model model) {
         return PREFIX + "/index";
@@ -48,6 +50,7 @@ public class AreaController extends BaseController {
      * @param parentId
      * @return
      */
+    @RequiresPermissions("sys:area:add")
     @GetMapping("/add/{pId}")
     String add(Model model, @PathVariable("pId") Integer parentId) {
         model.addAttribute("parentId", parentId);
@@ -65,6 +68,7 @@ public class AreaController extends BaseController {
      * @param areaId
      * @return
      */
+    @RequiresPermissions("sys:area:edit")
     @GetMapping("/edit/{id}")
     String edit(Model model, @PathVariable("id") Integer areaId) {
         AreaEntity area = areaService.get(areaId);
@@ -84,6 +88,7 @@ public class AreaController extends BaseController {
      * @param model
      * @return
      */
+    @RequiresPermissions("sys:area:index")
     @PostMapping(value = "/list")
     @ResponseBody
     public List<AreaEntity> list(Model model) {
@@ -109,6 +114,7 @@ public class AreaController extends BaseController {
      * @return
      */
     @ParamVailds
+    @RequiresPermissions("sys:area:edit")
     @PostMapping(value = "/edit")
     @ResponseBody
     public ResponseMessage update(AreaEntity entity) {
@@ -123,6 +129,7 @@ public class AreaController extends BaseController {
      * @param id
      * @return
      */
+    @RequiresPermissions("sys:area:remove")
     @PostMapping(value = "/remove")
     @ResponseBody
     public ResponseMessage remove(@NotNull(message = "ID 不能为空") Integer id) {

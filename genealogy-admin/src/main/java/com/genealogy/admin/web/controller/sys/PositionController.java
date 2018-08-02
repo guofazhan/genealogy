@@ -8,6 +8,7 @@ import com.genealogy.common.annotation.ParamVailds;
 import com.genealogy.common.response.RespCode;
 import com.genealogy.common.response.RespHelper;
 import com.genealogy.common.response.ResponseMessage;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,6 +39,7 @@ public class PositionController extends BaseController {
      * @param model
      * @return
      */
+    @RequiresPermissions("sys:position:index")
     @GetMapping()
     String index(Model model) {
         return PREFIX + "/index";
@@ -48,6 +50,7 @@ public class PositionController extends BaseController {
      * @param model
      * @return
      */
+    @RequiresPermissions("sys:position:add")
     @GetMapping("/add")
     String add(Model model) {
         return PREFIX + "/add";
@@ -59,6 +62,7 @@ public class PositionController extends BaseController {
      * @param positionId
      * @return
      */
+    @RequiresPermissions("sys:position:edit")
     @GetMapping("/edit/{id}")
     String edit(Model model, @PathVariable("id") Integer positionId) {
         PositionEntity positionEntity = positionService.get(positionId);
@@ -71,6 +75,7 @@ public class PositionController extends BaseController {
      * @param vo
      * @return
      */
+    @RequiresPermissions("sys:position:index")
     @PostMapping(value = "/page")
     @ResponseBody
     public List<PositionEntity> page(PositionReqVo vo) {
@@ -84,6 +89,7 @@ public class PositionController extends BaseController {
      */
     @ParamVailds
     @PostMapping(value = "/save")
+    @RequiresPermissions("sys:position:save")
     @ResponseBody
     public ResponseMessage save(PositionEntity entity) {
         System.out.println("保存职位信息:" + entity);
@@ -99,6 +105,7 @@ public class PositionController extends BaseController {
     @ParamVailds
     @PostMapping(value = "/edit")
     @ResponseBody
+    @RequiresPermissions("sys:position:edit")
     public ResponseMessage update(PositionEntity entity) {
         if(positionService.update(entity)<=0){
             return RespHelper.buildResponseMessage(RespCode.COMM_FAIL,null);
@@ -113,6 +120,7 @@ public class PositionController extends BaseController {
      */
     @PostMapping(value = "/remove")
     @ResponseBody
+    @RequiresPermissions("sys:position:remove")
     public ResponseMessage remove(@NotNull(message = "ID 不能为空") Integer id) {
         if(positionService.delete(id)<=0){
             return RespHelper.buildResponseMessage(RespCode.COMM_FAIL,null);

@@ -8,6 +8,7 @@ import com.genealogy.common.annotation.ParamVailds;
 import com.genealogy.common.response.RespCode;
 import com.genealogy.common.response.RespHelper;
 import com.genealogy.common.response.ResponseMessage;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,27 +36,32 @@ public class MenuController extends BaseController {
 
 	/**
 	 * 菜单添加
+	 *
 	 * @param model
 	 * @param model
 	 * @return
 	 */
+	@RequiresPermissions("sys:menu:add")
 	@GetMapping("/add/{pId}")
 	String add(Model model, @PathVariable("pId") Integer parentId) {
 		model.addAttribute("parentId", parentId);
 		if (parentId == 0) {
 			model.addAttribute("parentName", "根目录");
 		} else {
-			model.addAttribute("parentName", menuService.get(parentId).getMenuName());
+			model.addAttribute("parentName",
+					menuService.get(parentId).getMenuName());
 		}
 		return PREFIX + "/add";
 	}
 
 	/**
 	 * 菜单编辑
+	 *
 	 * @param model
 	 * @param model
 	 * @return
 	 */
+	@RequiresPermissions("sys:menu:edit")
 	@GetMapping("/edit/{id}")
 	String edit(Model model, @PathVariable("id") Integer menuId) {
 		MenuEntity menu = menuService.get(menuId);
@@ -64,11 +70,13 @@ public class MenuController extends BaseController {
 		if (menu.getParentId() == 0) {
 			model.addAttribute("parentName", "根目录");
 		} else {
-			model.addAttribute("parentName", menuService.get(menu.getParentId()).getMenuName());
+			model.addAttribute("parentName",
+					menuService.get(menu.getParentId()).getMenuName());
 		}
 		return PREFIX + "/edit";
 	}
 
+	@RequiresPermissions("sys:menu:index")
 	@GetMapping()
 	String index(Model model) {
 		return PREFIX + "/index";
@@ -82,10 +90,12 @@ public class MenuController extends BaseController {
 
 	/**
 	 * 添加菜单信息
+	 *
 	 * @param entity
 	 * @return
 	 */
 	@ParamVailds
+	@RequiresPermissions("sys:menu:add")
 	@PostMapping(value = "/save")
 	@ResponseBody
 	public ResponseMessage save(MenuEntity entity) {
@@ -95,34 +105,39 @@ public class MenuController extends BaseController {
 
 	/**
 	 * 更新菜单信息
+	 *
 	 * @param entity
 	 * @return
 	 */
+	@RequiresPermissions("sys:menu:edit")
 	@PostMapping(value = "/edit")
 	@ResponseBody
 	public ResponseMessage update(MenuEntity entity) {
-		if(menuService.update(entity)<=0){
-			return RespHelper.buildResponseMessage(RespCode.COMM_FAIL,null);
+		if (menuService.update(entity) <= 0) {
+			return RespHelper.buildResponseMessage(RespCode.COMM_FAIL, null);
 		}
 		return RespHelper.buildResponseMessage(RespCode.SUCCESS, null);
 	}
 
 	/**
 	 * 删除ID
+	 *
 	 * @param id
 	 * @return
 	 */
+	@RequiresPermissions("sys:menu:remove")
 	@PostMapping(value = "/remove")
 	@ResponseBody
 	public ResponseMessage remove(@NotNull(message = "ID 不能为空") Integer id) {
-		if(menuService.delete(id)<=0){
-			return RespHelper.buildResponseMessage(RespCode.COMM_FAIL,null);
+		if (menuService.delete(id) <= 0) {
+			return RespHelper.buildResponseMessage(RespCode.COMM_FAIL, null);
 		}
 		return RespHelper.buildResponseMessage(RespCode.SUCCESS, null);
 	}
 
 	/**
 	 * 获取菜单树
+	 *
 	 * @return
 	 */
 	@PostMapping(value = "/tree")
@@ -134,6 +149,7 @@ public class MenuController extends BaseController {
 
 	/**
 	 * 根据角色ID获取菜单树
+	 *
 	 * @param roleId
 	 * @return
 	 */
