@@ -11,16 +11,4 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "spring.web.filter", ignoreUnknownFields = false)
 public class FilterProperties {
 
-	/**
-	 * 会话过滤器配置信息
-	 */
-	private SessionFilterOptions session;
-
-	public SessionFilterOptions getSession() {
-		return session;
-	}
-
-	public void setSession(SessionFilterOptions session) {
-		this.session = session;
-	}
 }
