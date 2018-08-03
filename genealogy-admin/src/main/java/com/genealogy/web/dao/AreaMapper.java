@@ -1,5 +1,6 @@
 package com.genealogy.web.dao;
 
+import com.genealogy.web.common.SuperMapper;
 import com.genealogy.web.model.AreaEntity;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
-public interface AreaMapper {
+public interface AreaMapper extends SuperMapper<AreaEntity> {
 
     /**
      * 查询所有地区信息

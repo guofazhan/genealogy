@@ -1,5 +1,6 @@
 package com.genealogy.web.dao;
 
+import com.genealogy.web.common.SuperMapper;
 import com.genealogy.web.model.UserRoleEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * @since [产品/模块版本]
  */
 @Mapper
-public interface UserRoleMapper {
+public interface UserRoleMapper extends SuperMapper<UserRoleEntity> {
 
 	/**
 	 * 批量保存关系信息
@@ -24,25 +25,25 @@ public interface UserRoleMapper {
 	 */
 	int batchSave(List<UserRoleEntity> entitys);
 
-
 	/**
 	 * 通过角色ID删除关系
+	 *
 	 * @param id
 	 * @return
 	 */
 	int deleteByUserId(Integer id);
 
-
 	/**
 	 * 通过菜单ID删除关系
+	 *
 	 * @param id
 	 * @return
 	 */
 	int deleteByRoleId(Integer id);
 
-
 	/**
 	 * 根据用户ID查询角色集合
+	 *
 	 * @param id
 	 * @return
 	 */

@@ -1,5 +1,6 @@
 package com.genealogy.web.dao;
 
+import com.genealogy.web.common.SuperMapper;
 import com.genealogy.web.model.RoleMenuEntity;
 
 import java.util.List;
@@ -10,33 +11,37 @@ import java.util.List;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
-public interface RoleMenuMapper {
+public interface RoleMenuMapper extends SuperMapper<RoleMenuEntity> {
 
-    /**
-     * 批量保存关系信息
-     * @param entitys
-     * @return
-     */
-    int batchSave(List<RoleMenuEntity> entitys);
+	/**
+	 * 批量保存关系信息
+	 *
+	 * @param entitys
+	 * @return
+	 */
+	int batchSave(List<RoleMenuEntity> entitys);
 
-    /**
-     * 通过角色ID删除关系
-     * @param id
-     * @return
-     */
-    int deleteByRoleId(Integer id);
+	/**
+	 * 通过角色ID删除关系
+	 *
+	 * @param id
+	 * @return
+	 */
+	int deleteByRoleId(Integer id);
 
-    /**
-     * 通过菜单ID删除关系
-     * @param id
-     * @return
-     */
-    int deleteByMenuId(Integer id);
+	/**
+	 * 通过菜单ID删除关系
+	 *
+	 * @param id
+	 * @return
+	 */
+	int deleteByMenuId(Integer id);
 
-    /**
-     * 根据角色ID查询菜单集合
-     * @param id
-     * @return
-     */
-    List<Integer> queryMenuIdsByRoleId(Integer id);
+	/**
+	 * 根据角色ID查询菜单集合
+	 *
+	 * @param id
+	 * @return
+	 */
+	List<Integer> queryMenuIdsByRoleId(Integer id);
 }

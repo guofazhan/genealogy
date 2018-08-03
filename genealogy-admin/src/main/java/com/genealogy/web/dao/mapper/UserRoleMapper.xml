@@ -63,7 +63,7 @@
         where ROLE_ID = #{id}
     </update>
     <!-- 查询用户角色的角色ID集合 -->
-    <select id="queryRolesByUserId"  parameterType="int" resultType="int">
+    <select id="queryRolesByUserId"  parameterType="int" resultType="java.lang.Integer">
         SELECT RM.ROLE_ID FROM sys_user_role RM
         <where>
             RM.IS_DEL = 0 and RM.USER_ID = #{id}

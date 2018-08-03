@@ -1,5 +1,7 @@
 package com.genealogy.web.dao;
 
+import com.genealogy.web.common.SuperMapper;
+import com.genealogy.web.model.RoleMenuEntity;
 import com.genealogy.web.model.UserEntity;
 import com.genealogy.web.vo.UserReqVo;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,7 +18,7 @@ import java.util.Map;
  * @since [产品/模块版本]
  */
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends SuperMapper<UserEntity> {
 
 	/**
 	 * 查询用户根据用户名以及密码
@@ -24,17 +26,19 @@ public interface UserMapper {
 	 * @param loginMap
 	 * @return
 	 */
-	UserEntity queryUserByNameAndPassword(Map<String,String> loginMap);
+	UserEntity queryUserByNameAndPassword(Map<String, String> loginMap);
 
 	/**
 	 * 根据参数查询
+	 *
 	 * @param vo
 	 * @return
 	 */
-	List<UserEntity> list(UserReqVo vo );
+	List<UserEntity> list(UserReqVo vo);
 
 	/**
 	 * 查询总数
+	 *
 	 * @param vo
 	 * @return
 	 */
@@ -42,12 +46,14 @@ public interface UserMapper {
 
 	/**
 	 * 查询所有用户
+	 *
 	 * @return
 	 */
 	List<UserEntity> queryAll();
 
 	/**
 	 * 根据ID查询用户
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -55,6 +61,7 @@ public interface UserMapper {
 
 	/**
 	 * 根据登录用户名查询用户
+	 *
 	 * @param loginName
 	 * @return
 	 */
@@ -62,6 +69,7 @@ public interface UserMapper {
 
 	/**
 	 * 保存用户
+	 *
 	 * @param entity
 	 * @return
 	 */
@@ -69,6 +77,7 @@ public interface UserMapper {
 
 	/**
 	 * 更新用户
+	 *
 	 * @param entity
 	 * @return
 	 */
@@ -76,6 +85,7 @@ public interface UserMapper {
 
 	/**
 	 * 删除用户
+	 *
 	 * @param id
 	 * @return
 	 */

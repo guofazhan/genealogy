@@ -1,5 +1,7 @@
 package com.genealogy.web.dao;
 
+import com.genealogy.web.common.SuperMapper;
+import com.genealogy.web.model.PositionEntity;
 import com.genealogy.web.model.RoleEntity;
 
 import java.util.List;
@@ -10,38 +12,43 @@ import java.util.List;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
-public interface RoleMapper {
+public interface RoleMapper extends SuperMapper<RoleEntity> {
 
-    /**
-     * 查询所有角色信息
-     * @return
-     */
-    List<RoleEntity> queryAll();
+	/**
+	 * 查询所有角色信息
+	 *
+	 * @return
+	 */
+	List<RoleEntity> queryAll();
 
-    /**
-     * 查询角色信息根据ID
-     * @param roleId
-     * @return
-     */
-    RoleEntity get(Integer roleId);
+	/**
+	 * 查询角色信息根据ID
+	 *
+	 * @param roleId
+	 * @return
+	 */
+	RoleEntity get(Integer roleId);
 
-    /**
-     * 保存角色信息
-     * @param entity
-     */
-    void save(RoleEntity entity);
+	/**
+	 * 保存角色信息
+	 *
+	 * @param entity
+	 */
+	void save(RoleEntity entity);
 
-    /**
-     * 更新角色信息
-     * @param entity
-     * @return
-     */
-    int update(RoleEntity entity);
+	/**
+	 * 更新角色信息
+	 *
+	 * @param entity
+	 * @return
+	 */
+	int update(RoleEntity entity);
 
-    /**
-     * 删除角色信息
-     * @param id
-     * @return
-     */
-    int delete(Integer id);
+	/**
+	 * 删除角色信息
+	 *
+	 * @param id
+	 * @return
+	 */
+	int delete(Integer id);
 }

@@ -1,5 +1,8 @@
 package com.genealogy.web.model;
 
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -10,22 +13,26 @@ import org.hibernate.validator.constraints.NotBlank;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
+@TableName("sys_position")
 public class PositionEntity extends BaseEntity{
 
     /**
      * 职位ID
      */
+    @TableId(value = "ID")
     private Integer positionId;
 
     /**
      * 职位名称
      */
+    @TableField(value = "NAME")
     @NotBlank(message = "职位名不能为空")
     private String positionName;
 
     /**
      * 描述
      */
+    @TableField(value = "REMARK")
     private String remark;
 
     public Integer getPositionId() {

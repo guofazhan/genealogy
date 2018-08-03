@@ -1,5 +1,9 @@
 package com.genealogy.web.model;
 
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
+
 /**
  * 地区实体
  * @author G2Y
@@ -7,36 +11,43 @@ package com.genealogy.web.model;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
+@TableName("sys_area")
 public class AreaEntity extends BaseEntity {
 
     /**
      * 地区ID
      */
+    @TableId(value = "ID")
     private Integer areaId;
 
     /**
      * 地区编码
      */
+    @TableField(value = "CODE")
     private String areaCode;
 
     /**
      * 父ID
      */
+    @TableField(value = "PARENT_ID")
     private Integer parentId;
 
     /**
      * 地区名
      */
+    @TableField(value = "NAME")
     private String areaName;
 
     /**
      * 排序字段
      */
+    @TableField(value = "SORT")
     private Integer sort;
 
     /**
      * 描述
      */
+    @TableField(value = "REMARK")
     private String remark;
 
     public Integer getAreaId() {

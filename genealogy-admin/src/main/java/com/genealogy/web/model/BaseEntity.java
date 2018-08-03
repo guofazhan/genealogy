@@ -1,5 +1,7 @@
 package com.genealogy.web.model;
 
+import com.baomidou.mybatisplus.annotations.TableField;
+
 /**
  * 实体的基础信息
  *
@@ -13,26 +15,31 @@ public class BaseEntity {
 	/**
 	 * 删除标识 0 未删除、1删除
 	 */
+	@TableField(value = "IS_DEL")
 	private Integer isDel;
 
 	/**
 	 * 创建人
 	 */
+	@TableField(value = "CREATE_BY")
 	private String createBy;
 
 	/**
 	 * 创建时间
 	 */
+	@TableField(value = "CREATE_TIME")
 	private String createTime;
 
 	/**
 	 * 最后修改人
 	 */
+	@TableField(value = "LAST_MODIFY_BY")
 	private String lastModifyBy;
 
 	/**
 	 * 最后修改时间
 	 */
+	@TableField(value = "LAST_MODIFY_TIME")
 	private String lastModifyTime;
 
 	public int getIsDel() {

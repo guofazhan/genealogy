@@ -1,5 +1,9 @@
 package com.genealogy.web.model;
 
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
+
 /**
  * 用户角色关系实体
  *
@@ -8,21 +12,25 @@ package com.genealogy.web.model;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
+@TableName("sys_user_role")
 public class UserRoleEntity extends BaseEntity{
 
 	/**
 	 *
 	 */
+	@TableId(value = "ID")
 	private Integer id;
 
 	/**
 	 * 用户ID
 	 */
+	@TableField(value = "USER_ID")
 	private Integer userId;
 
 	/**
 	 * 角色ID
 	 */
+	@TableField(value = "ROLE_ID")
 	private Integer roleId;
 
 	public Integer getId() {

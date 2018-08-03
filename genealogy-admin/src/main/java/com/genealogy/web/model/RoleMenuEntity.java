@@ -1,5 +1,9 @@
 package com.genealogy.web.model;
 
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
+
 /**
  * 角色菜单关联关系实体
  * @author G2Y
@@ -7,21 +11,25 @@ package com.genealogy.web.model;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
+@TableName("sys_role_menu")
 public class RoleMenuEntity extends BaseEntity{
 
     /**
      * ID
      */
+    @TableId(value = "ID")
     private Integer id;
 
     /**
      * 角色ID
      */
+    @TableField(value = "ROLE_ID")
     private Integer roleId;
 
     /**
      * 菜单ID
      */
+    @TableField(value = "MENU_ID")
     private Integer menuId;
 
     public Integer getId() {
