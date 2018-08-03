@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.genealogy.web.dao.UserRoleMapper">
+    <resultMap id="userRoleResultMap" type="com.genealogy.web.model.UserRoleEntity">
+        <!-- 用id属性来映射主键字段 -->
+        <id property="id" column="ID"/>
+        <!-- 用result属性来映射非主键字段 -->
+        <result property="userId" column="USER_ID"/>
+        <result property="roleId" column="ROLE_ID"/>
+        <result property="isDel" column="IS_DEL"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="lastModifyBy" column="LAST_MODIFY_BY"/>
+        <result property="lastModifyTime" column="LAST_MODIFY_TIME"/>
+    </resultMap>
+    <sql id="base_query">
+        <![CDATA[
+          SELECT
+                RM.ID,
+                RM.ROLE_ID,
+                RM.USER_ID,
+                RM.IS_DEL,
+                RM.CREATE_BY,
+                RM.CREATE_TIME,
+                RM.LAST_MODIFY_BY,
+                RM.LAST_MODIFY_TIME
+            FROM
+	      sys_user_role RM
+	         ]]>
+    </sql>
+
+    <!--查询所有用户角色信息 -->
+    <select id="queryAll" resultMap="userRoleResultMap">
+        <include refid="base_query"></include>
+        <where>
+            RM.IS_DEL = 0
+        </where>
+    </select>
+
+    <!-- 批量添加关系信息 -->
+    <insert id="batchSave">
+        INSERT INTO sys_role_menu(ROLE_ID, USER_ID,IS_DEL,CREATE_BY,CREATE_TIME,LAST_MODIFY_BY,LAST_MODIFY_TIME) values
+        <foreach item="item" index="index" collection="list"
+                 separator=",">
+            (#{item.roleId},#{item.userId},#{item.isDel},#{item.createBy},#{item.createTime},#{item.lastModifyBy},#{item.lastModifyTime})
+        </foreach>
+    </insert>
+    <!-- 逻辑删除关联关系信息 -->
+    <update id="deleteByUserId"  parameterType="int">
+        update sys_user_role
+        <set>
+            IS_DEL =1
+        </set>
+        where USER_ID = #{id}
+    </update>
+    <!-- 逻辑删除关联关系信息 -->
+    <update id="deleteByRoleId"  parameterType="int">
+        update sys_user_role
+        <set>
+            IS_DEL =1
+        </set>
+        where ROLE_ID = #{id}
+    </update>
+    <!-- 查询用户角色的角色ID集合 -->
+    <select id="queryRolesByUserId"  parameterType="int" resultType="int">
+        SELECT RM.ROLE_ID FROM sys_user_role RM
+        <where>
+            RM.IS_DEL = 0 and RM.USER_ID = #{id}
+        </where>
+    </select>
+
+</mapper>

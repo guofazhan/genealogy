@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.genealogy.web.dao.PositionMapper">
+    <resultMap id="positionResultMap" type="com.genealogy.web.model.PositionEntity">
+        <!-- 用id属性来映射主键字段 -->
+        <id property="positionId" column="ID"/>
+        <!-- 用result属性来映射非主键字段 -->
+        <result property="positionName" column="NAME"/>
+        <result property="remark" column="REMARK"/>
+        <result property="isDel" column="IS_DEL"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="lastModifyBy" column="LAST_MODIFY_BY"/>
+        <result property="lastModifyTime" column="LAST_MODIFY_TIME"/>
+    </resultMap>
+    <sql id="base_query">
+        <![CDATA[
+            SELECT
+                p.ID,
+                p.`NAME`,
+                p.REMARK,
+                p.IS_DEL,
+                p.CREATE_BY,
+                p.CREATE_TIME,
+                p.LAST_MODIFY_BY,
+                p.LAST_MODIFY_TIME
+            FROM
+                sys_position p
+	         ]]>
+    </sql>
+
+    <!--查询所有职位信息 -->
+    <select id="queryAll" resultMap="positionResultMap">
+        <include refid="base_query"></include>
+        <where>
+            p.IS_DEL = 0
+        </where>
+    </select>
+    <!-- 根据ID查询职位-->
+    <select id="get" resultMap="positionResultMap" parameterType="int">
+        <include refid="base_query"></include>
+        <where>
+            p.ID = #{id} and  p.IS_DEL = 0
+        </where>
+    </select>
+
+    <!-- 添加职位信息 -->
+    <insert id="save" parameterType="com.genealogy.web.model.PositionEntity"
+            useGeneratedKeys="true" keyProperty="positionId">
+		insert into sys_position
+            (
+            `NAME`,
+            `REMARK`,
+            `IS_DEL`,
+            `CREATE_BY`,
+            `CREATE_TIME`,
+            `LAST_MODIFY_BY`,
+            `LAST_MODIFY_TIME`
+            )
+		values
+            (
+            #{positionName},
+            #{remark},
+            #{isDel},
+            #{createBy},
+            #{createTime},
+            #{lastModifyBy},
+            #{lastModifyTime}
+            )
+	</insert>
+
+    <!-- 更新职位信息 -->
+    <update id="update" parameterType="com.genealogy.web.model.PositionEntity">
+        update sys_position
+        <set>
+            <if test="positionName != null">`NAME` = #{positionName}, </if>
+            <if test="remark != null">`REMARK` = #{remark}, </if>
+            <if test="lastModifyBy != null">`LAST_MODIFY_BY` = #{lastModifyBy}, </if>
+            <if test="lastModifyTime != null">`LAST_MODIFY_TIME` = #{lastModifyTime}, </if>
+        </set>
+        where ID = #{positionId}
+    </update>
+    <!-- 逻辑删除职位信息 -->
+    <update id="delete"  parameterType="int">
+        update sys_position
+        <set>
+            IS_DEL =1
+        </set>
+        where ID = #{id}
+    </update>
+
+</mapper>

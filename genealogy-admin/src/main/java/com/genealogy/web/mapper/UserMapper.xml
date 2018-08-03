@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.genealogy.web.dao.UserMapper">
+    <resultMap id="userResultMap" type="com.genealogy.web.model.UserEntity">
+        <!-- 用id属性来映射主键字段 -->
+        <id property="userId" column="ID"/>
+        <!-- 用result属性来映射非主键字段 -->
+        <result property="loginName" column="LOGIN_NAME"/>
+        <result property="password" column="PASSWORD"/>
+        <result property="showName" column="SHOW_NAME"/>
+        <result property="position" column="POSITION"/>
+        <result property="email" column="EMAIL"/>
+        <result property="mobile" column="MOBILE"/>
+        <result property="sex" column="SEX"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="isLock" column="IS_LOCK"/>
+        <result property="isDel" column="IS_DEL"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="lastModifyBy" column="LAST_MODIFY_BY"/>
+        <result property="lastModifyTime" column="LAST_MODIFY_TIME"/>
+    </resultMap>
+    <sql id="base_query">
+        <![CDATA[
+            SELECT
+                U.ID,
+                U.LOGIN_NAME,
+                U.SHOW_NAME,
+                U.POSITION,
+                U.ADDRESS,
+                U.EMAIL,
+                U.MOBILE,
+                U.SEX,
+                U.IS_LOCK,
+                U.IS_DEL,
+                U.CREATE_BY,
+                U.CREATE_TIME,
+                U.LAST_MODIFY_BY,
+              U.LAST_MODIFY_TIME
+            FROM
+                sys_user U
+      ]]>
+    </sql>
+    <!--查询所有用户信息 -->
+    <select id="queryAll" resultMap="userResultMap">
+        <include refid="base_query"></include>
+        <where>
+            U.IS_DEL = 0
+        </where>
+        order by  U.ID
+    </select>
+    <!--根据参数查询 -->
+    <select id="list" resultMap="userResultMap">
+        <include refid="base_query"></include>
+        <where>
+            <if test="userId != null and userId != ''"> and U.ID = #{userId} </if>
+            <if test="loginName != null and loginName != ''"> and U.LOGIN_NAME = #{loginName} </if>
+            <if test="showName != null and showName != ''"> and U.SHOW_NAME = #{showName} </if>
+        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        select count(1) from sys_user
+        <where>
+            <if test="userId != null and userId != ''"> and U.ID = #{userId} </if>
+            <if test="loginName != null and loginName != ''"> and U.LOGIN_NAME = #{loginName} </if>
+            <if test="showName != null and showName != ''"> and U.SHOW_NAME = #{showName} </if>
+        </where>
+    </select>
+    <!-- 根据登录用户名以及密码查询用户 -->
+    <select id="queryUserByNameAndPassword" resultMap="userResultMap">
+        <include refid="base_query"></include>
+        <where>
+            U.IS_DEL = 0
+            and U.LOGIN_NAME=#{loginName}
+            and U.`PASSWORD` = #{password}
+        </where>
+    </select>
+    <!-- 根据ID查询用户 -->
+    <select id="get" resultMap="userResultMap" parameterType="int">
+        <include refid="base_query"></include>
+        <where>
+            U.ID = #{id} and U.IS_DEL = 0
+        </where>
+    </select>
+    <!-- 根据登录用户名查询用户 -->
+    <select id="queryUserByName" resultMap="userResultMap" parameterType="string">
+        <include refid="base_query"></include>
+        <where>
+            U.IS_DEL = 0
+            and U.LOGIN_NAME=#{loginName}
+        </where>
+    </select>
+    <!--保存用户-->
+    <insert id="save" parameterType="com.genealogy.web.model.UserEntity"
+            useGeneratedKeys="true" keyProperty="userId">
+        <![CDATA[
+            insert into sys_user
+            (
+                `LOGIN_NAME`,
+                `PASSWORD`,
+                `SHOW_NAME`,
+                `POSITION`,
+                `ADDRESS`,
+                `MOBILE`,
+                `SEX`,
+                `EMAIL`,
+                `IS_LOCK`,
+                `IS_DEL`,
+                `CREATE_BY`,
+                `CREATE_TIME`,
+                `LAST_MODIFY_BY`,
+                `LAST_MODIFY_TIME`
+            )
+            values
+            (
+                #{loginName},
+                #{password},
+                #{showName},
+                #{position},
+                #{address},
+                #{mobile},
+                #{sex},
+                #{email},
+                #{isLock},
+                #{isDel},
+                #{createBy},
+                #{createTime},
+                #{lastModifyBy},
+                #{lastModifyTime}
+            )
+		  ]]>
+	</insert>
+    <!--更新用户 -->
+    <update id="update"  parameterType="com.genealogy.web.model.UserEntity">
+        update sys_user
+        <set>
+            <if test="loginName != null">`LOGIN_NAME` = #{loginName}, </if>
+            <if test="showName != null">`SHOW_NAME` = #{showName}, </if>
+            <if test="position != null">`POSITION` = #{position}, </if>
+            <if test="address != null">`ADDRESS` = #{address}, </if>
+            <if test="mobile != null">`MOBILE` = #{mobile}, </if>
+            <if test="sex != null">`SEX` = #{sex}, </if>
+            <if test="email != null">`EMAIL` = #{email}, </if>
+            <if test="password != null">`PASSWORD` = #{password}, </if>
+            <if test="isLock != null">`IS_LOCK` = #{isLock}, </if>
+            <if test="lastModifyBy != null">`LAST_MODIFY_BY` = #{lastModifyBy}, </if>
+            <if test="lastModifyTime != null">`LAST_MODIFY_TIME` = #{lastModifyTime}</if>
+        </set>
+        where ID = #{areaId}
+    </update>
+    <!-- 逻辑删除 -->
+    <update id="delete"  parameterType="int">
+        update sys_user
+        <set>
+            IS_DEL =1
+        </set>
+        where ID = #{id}
+    </update>
+</mapper>

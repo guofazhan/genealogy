@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since [产品/模块版本]
  */
 @SpringBootApplication
-@MapperScan("com.genealogy.admin.web.dao")
+@MapperScan("com.genealogy.web.dao")
 public class GenealogyApplication {
 
 	/**
