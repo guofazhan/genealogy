@@ -1,9 +1,7 @@
 package com.genealogy.admin.configure.mybatis;
 
-import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -30,15 +28,6 @@ public class MybatisConfigure implements TransactionManagementConfigurer {
 
 	@Autowired
 	private DataSource dataSource;
-
-	@Bean
-	public ConfigurationCustomizer configurationCustomizer() {
-		return configuration -> {
-			//设置驼峰命名规则
-			configuration.setMapUnderscoreToCamelCase(true);
-		};
-	}
-
 	@Override
 	public PlatformTransactionManager annotationDrivenTransactionManager() {
 		return new DataSourceTransactionManager(dataSource);
