@@ -1,7 +1,9 @@
 package com.genealogy.admin.configure.mybatis;
 
+import com.baomidou.mybatisplus.plugins.PerformanceInterceptor;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -28,6 +30,15 @@ public class MybatisConfigure implements TransactionManagementConfigurer {
 
 	@Autowired
 	private DataSource dataSource;
+
+	/**
+	 * mybatis-plus SQL执行效率插件
+	 */
+	@Bean
+	public PerformanceInterceptor performanceInterceptor() {
+		return new PerformanceInterceptor();
+	}
+
 	@Override
 	public PlatformTransactionManager annotationDrivenTransactionManager() {
 		return new DataSourceTransactionManager(dataSource);
