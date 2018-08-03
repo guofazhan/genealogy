@@ -1,4 +1,4 @@
-package com.genealogy.admin.configure.datasource;
+package com.genealogy.common.datasource;
 
 /**
  * @author guofazhan

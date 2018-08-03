@@ -1,5 +1,6 @@
 package com.genealogy.admin.configure.datasource;
 
+import com.genealogy.common.datasource.DatasourceOptions;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**

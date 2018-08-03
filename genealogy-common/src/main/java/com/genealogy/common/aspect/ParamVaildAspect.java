@@ -32,7 +32,7 @@ public class ParamVaildAspect {
 	private static final Logger logger = LoggerFactory
 			.getLogger(ParamVaildAspect.class);
 
-	@Pointcut("@annotation(com.genealogy.common.annotation.ParamVailds)")
+	@Pointcut("@annotation(com.genealogy.common.aspect.annotation.ParamVailds)")
 	public void paramVaild() {
 
 	}

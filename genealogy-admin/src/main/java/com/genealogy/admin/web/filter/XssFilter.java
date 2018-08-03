@@ -1,5 +1,6 @@
 package com.genealogy.admin.web.filter;
 
+import com.genealogy.common.web.XssHttpServletRequestWrapper;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

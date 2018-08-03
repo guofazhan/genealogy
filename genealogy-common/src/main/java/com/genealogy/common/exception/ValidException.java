@@ -1,6 +1,6 @@
 package com.genealogy.common.exception;
 
-import com.genealogy.common.response.RespCode;
+import com.genealogy.common.message.respcode.RespCode;
 
 /**
  * 校验异常

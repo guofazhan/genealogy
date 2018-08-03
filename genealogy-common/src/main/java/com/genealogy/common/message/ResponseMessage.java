@@ -1,6 +1,4 @@
-package com.genealogy.common.response;
-
-import java.io.Serializable;
+package com.genealogy.common.message;
 
 /**
  * 公共的响应体
@@ -10,7 +8,7 @@ import java.io.Serializable;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
-public class ResponseMessage<T> implements Serializable {
+public class ResponseMessage<T> extends Message {
 
 	/**
 	 * 响应状态码

@@ -1,6 +1,7 @@
-package com.genealogy.common.response;
+package com.genealogy.common.message.respcode;
 
 import com.genealogy.common.exception.BaseException;
+import com.genealogy.common.message.ResponseMessage;
 
 /**
  * 响应帮助类

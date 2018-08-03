@@ -3,10 +3,11 @@ package com.genealogy.admin.web.controller.sys;
 import com.genealogy.admin.web.controller.BaseController;
 import com.genealogy.admin.web.model.AreaEntity;
 import com.genealogy.admin.web.service.IAreaService;
-import com.genealogy.common.annotation.ParamVailds;
-import com.genealogy.common.response.RespCode;
-import com.genealogy.common.response.RespHelper;
-import com.genealogy.common.response.ResponseMessage;
+
+import com.genealogy.common.aspect.annotation.ParamVailds;
+import com.genealogy.common.message.ResponseMessage;
+import com.genealogy.common.message.respcode.RespCode;
+import com.genealogy.common.message.respcode.RespHelper;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

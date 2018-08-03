@@ -1,10 +1,10 @@
 package com.genealogy.admin.web.controller;
 
 import com.genealogy.admin.web.vo.LoginReqVo;
-import com.genealogy.common.annotation.ParamVailds;
-import com.genealogy.common.response.RespCode;
-import com.genealogy.common.response.RespHelper;
-import com.genealogy.common.response.ResponseMessage;
+import com.genealogy.common.aspect.annotation.ParamVailds;
+import com.genealogy.common.message.ResponseMessage;
+import com.genealogy.common.message.respcode.RespCode;
+import com.genealogy.common.message.respcode.RespHelper;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.slf4j.LoggerFactory;

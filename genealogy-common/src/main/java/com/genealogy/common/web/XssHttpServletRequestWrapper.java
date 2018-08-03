@@ -1,4 +1,4 @@
-package com.genealogy.admin.web.filter;
+package com.genealogy.common.web;
 
 
 import com.genealogy.common.utils.JsoupUtils;

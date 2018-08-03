@@ -1,6 +1,6 @@
 package com.genealogy.common.exception;
 
-import com.genealogy.common.response.RespCode;
+import com.genealogy.common.message.respcode.RespCode;
 
 /**
  * 异常类
@@ -26,12 +26,12 @@ public class BaseException extends RuntimeException {
 	}
 
 	public BaseException(RespCode respCode) {
-		this(RespCode.COMM_ERROR,
+		this(respCode,
 				"code:" + respCode.getCode() + ",desc:" + respCode.getDesc());
 	}
 
 	public BaseException(RespCode respCode, Throwable e) {
-		this(RespCode.COMM_ERROR,
+		this(respCode,
 				"code:" + respCode.getCode() + ",desc:" + respCode.getDesc(),
 				e);
 	}

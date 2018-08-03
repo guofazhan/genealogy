@@ -1,8 +1,10 @@
-package com.genealogy.common.exception;
+package com.genealogy.common.web;
 
-import com.genealogy.common.response.RespCode;
-import com.genealogy.common.response.RespHelper;
-import com.genealogy.common.response.ResponseMessage;
+import com.genealogy.common.exception.BaseException;
+import com.genealogy.common.exception.ValidException;
+import com.genealogy.common.message.respcode.RespCode;
+import com.genealogy.common.message.respcode.RespHelper;
+import com.genealogy.common.message.ResponseMessage;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.slf4j.Logger;

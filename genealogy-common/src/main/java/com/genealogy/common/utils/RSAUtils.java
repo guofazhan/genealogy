@@ -1,7 +1,7 @@
 package com.genealogy.common.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.genealogy.common.exception.BaseException;
+import com.genealogy.common.message.respcode.RespCode;
 
 import javax.crypto.Cipher;
 import java.io.ByteArrayOutputStream;
@@ -17,11 +17,9 @@ import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
 
 /**
- *  RSA加密解密工具类
+ * RSA加密解密工具类
  */
 public class RSAUtils {
-
-	private final static Logger LOG =LoggerFactory.getLogger(RSAUtils.class.getName());
 
 	/**
 	 * 私钥指数
@@ -40,7 +38,7 @@ public class RSAUtils {
 
 	/**
 	 * 生成密钥对方法 需要更换密钥时使用
-	 * 
+	 *
 	 * @return KeyPair
 	 * @throws Exception
 	 */
@@ -54,14 +52,13 @@ public class RSAUtils {
 			KeyPair keyPair = keyPairGen.generateKeyPair();
 			return keyPair;
 		} catch (Exception e) {
-			LOG.error("生成密钥对出现异常！--->>>", e);
-			throw new RuntimeException("生成密钥对出现异常！", e);
+			throw new BaseException(RespCode.COMM_ERROR, e);
 		}
 	}
 
 	/**
 	 * 获取公钥信息 加密时使用
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -70,18 +67,18 @@ public class RSAUtils {
 			KeyFactory keyFac = null;
 			keyFac = KeyFactory.getInstance(RSA,
 					new org.bouncycastle.jce.provider.BouncyCastleProvider());
-			RSAPublicKeySpec pubKeySpec = new RSAPublicKeySpec(new BigInteger(
-					KEY_MODULUS), new BigInteger(PUBLIC_KEY_EXPONENT));
+			RSAPublicKeySpec pubKeySpec = new RSAPublicKeySpec(
+					new BigInteger(KEY_MODULUS),
+					new BigInteger(PUBLIC_KEY_EXPONENT));
 			return (RSAPublicKey) keyFac.generatePublic(pubKeySpec);
 		} catch (Exception e) {
-			LOG.error("获取公钥出现异常！--->>>", e);
-			throw new RuntimeException("获取公钥出现异常！", e);
+			throw new BaseException(RespCode.COMM_ERROR, e);
 		}
 	}
 
 	/**
 	 * 获取私钥信息解密时使用
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -91,22 +88,19 @@ public class RSAUtils {
 			keyFac = KeyFactory.getInstance(RSA,
 					new org.bouncycastle.jce.provider.BouncyCastleProvider());
 			RSAPrivateKeySpec priKeySpec = new RSAPrivateKeySpec(
-					new BigInteger(KEY_MODULUS), new BigInteger(
-							PRIVATE_KEY_EXPONENT));
+					new BigInteger(KEY_MODULUS),
+					new BigInteger(PRIVATE_KEY_EXPONENT));
 			return (RSAPrivateKey) keyFac.generatePrivate(priKeySpec);
 		} catch (Exception e) {
-			LOG.error("获取私钥出现异常！--->>>", e);
-			throw new RuntimeException("获取私钥出现异常！", e);
-
+			throw new BaseException(RespCode.COMM_ERROR, e);
 		}
 
 	}
 
 	/**
 	 * 加密方法
-	 * 
-	 * @param dataStr
-	 *            待加密字符串
+	 *
+	 * @param dataStr 待加密字符串
 	 * @return
 	 * @throws Exception
 	 */
@@ -128,8 +122,9 @@ public class RSAUtils {
 
 			int leavedSize = data.length % blockSize;
 
-			int blocksSize = leavedSize != 0 ? data.length / blockSize + 1
-					: data.length / blockSize;
+			int blocksSize = leavedSize != 0 ?
+					data.length / blockSize + 1 :
+					data.length / blockSize;
 
 			byte[] raw = new byte[outputSize * blocksSize];
 
@@ -137,26 +132,24 @@ public class RSAUtils {
 			while (data.length - i * blockSize > 0) {
 				if (data.length - i * blockSize > blockSize) {
 
-					cipher.doFinal(data, i * blockSize, blockSize, raw, i
-							* outputSize);
+					cipher.doFinal(data, i * blockSize, blockSize, raw,
+							i * outputSize);
 				} else {
-					cipher.doFinal(data, i * blockSize, data.length - i
-							* blockSize, raw, i * outputSize);
+					cipher.doFinal(data, i * blockSize,
+							data.length - i * blockSize, raw, i * outputSize);
 				}
 				i++;
 			}
 			return Base64.getEncoder().encodeToString(raw);
 		} catch (Exception e) {
-			LOG.error("密码加密出现异常！--->>>", e);
-			throw new RuntimeException("密码加密出现异常！", e);
+			throw new BaseException(RespCode.COMM_ERROR, e);
 		}
 	}
 
 	/**
 	 * 解密方法
-	 * 
-	 * @param rawStr
-	 *            待解密字符串
+	 *
+	 * @param rawStr 待解密字符串
 	 * @return
 	 * @throws Exception
 	 */
@@ -179,14 +172,13 @@ public class RSAUtils {
 			}
 			return new String(bout.toByteArray());
 		} catch (Exception e) {
-			LOG.error("密码解密出现异常！--->>>", e);
-			throw new RuntimeException("密码解密出现异常！", e);
+			throw new BaseException(RespCode.COMM_ERROR, e);
 		}
 	}
 
 	/**
 	 * 解析JS加密，将JS中传来的密文转换唱Base64适用的字符串 仅对JSP页面使用
-	 * 
+	 *
 	 * @param paramStr
 	 * @return Java方法可以解析的密文
 	 * @throws Exception
@@ -197,11 +189,8 @@ public class RSAUtils {
 			byte[] raw = new BigInteger(paramStr, 16).toByteArray();
 			Cipher cipher = Cipher.getInstance(RSA,
 					new org.bouncycastle.jce.provider.BouncyCastleProvider());
-
 			cipher.init(Cipher.DECRYPT_MODE, generateRSAPrivateKey());
-
 			int blockSize = cipher.getBlockSize();
-
 			ByteArrayOutputStream bout = new ByteArrayOutputStream(64);
 
 			int j = 0;
@@ -214,14 +203,12 @@ public class RSAUtils {
 			// 返回解密的字符串
 			return encrypt(sb.reverse().toString());
 		} catch (Exception e) {
-			LOG.error("JSP页面解密出现错误！--->>>", e);
-			throw new RuntimeException("JSP页面解密出现错误！", e);
+			throw new BaseException(RespCode.COMM_ERROR, e);
 		}
 	}
-
 	/**
 	 * 内部测试方法
-	 * 
+	 *
 	 * @param args
 	 * @throws Exception
 	 */
@@ -230,7 +217,6 @@ public class RSAUtils {
 		System.out.println("密文：" + RSAUtils.encrypt(pwd));
 
 		System.out.println("明文：" + RSAUtils.decrypt(RSAUtils.encrypt(pwd)));
-
 	}
 
 }

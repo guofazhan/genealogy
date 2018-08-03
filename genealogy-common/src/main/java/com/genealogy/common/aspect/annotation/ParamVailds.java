@@ -1,4 +1,4 @@
-package com.genealogy.common.annotation;
+package com.genealogy.common.aspect.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

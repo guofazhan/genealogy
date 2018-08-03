@@ -4,6 +4,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.genealogy.common.utils.RSAUtils;
 
 /**
+ * 安全的数据源
  * @author guofazhan
  * @version [版本号, 2018/7/25 0025 0001]
  * @see [相关类/方法]

@@ -1,4 +1,4 @@
-package com.genealogy.common.response;
+package com.genealogy.common.message.respcode;
 
 /**
  * @author guofazhan
