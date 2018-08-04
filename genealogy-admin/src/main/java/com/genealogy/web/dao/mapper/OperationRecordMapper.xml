@@ -2,6 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.genealogy.web.dao.OperationRecordMapper">
+    <resultMap id="oRResultMap" type="com.genealogy.web.model.OperationRecordEntity">
+        <!-- 用id属性来映射主键字段 -->
+        <id property="recordId" column="ID"/>
+        <!-- 用result属性来映射非主键字段 -->
+        <result property="spend" column="SPEND"/>
+        <result property="operation" column="OPERATION"/>
+        <result property="remark" column="REMARK"/>
+        <result property="isDel" column="IS_DEL"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="lastModifyBy" column="LAST_MODIFY_BY"/>
+        <result property="lastModifyTime" column="LAST_MODIFY_TIME"/>
+    </resultMap>
+
     <sql id="base_query">
         <![CDATA[
             SELECT
@@ -19,10 +33,40 @@
       ]]>
     </sql>
 
+    <!--保存-->
+    <insert id="save" parameterType="com.genealogy.web.model.OperationRecordEntity"
+            useGeneratedKeys="true" keyProperty="recordId">
+        <![CDATA[
+            insert into sys_operation_record
+            (
+                `SPEND`,
+                `OPERATION`,
+                `REMARK`,
+                `IS_DEL`,
+                `CREATE_BY`,
+                `CREATE_TIME`,
+                `LAST_MODIFY_BY`,
+                `LAST_MODIFY_TIME`
+            )
+            values
+            (
+                #{spend},
+                #{operation},
+                #{remark},
+                #{isDel},
+                #{createBy},
+                #{createTime},
+                #{lastModifyBy},
+                #{lastModifyTime}
+            )
+		  ]]>
+	</insert>
+
     <!--根据参数查询 -->
-    <select id="list" resultType="com.genealogy.web.model.OperationRecordEntity">
+    <select id="list" resultMap="oRResultMap">
         <include refid="base_query"></include>
         <where>
+            O.IS_DEL=0
             <if test="operation != null and operation != ''"> and O.OPERATION = #{operation} </if>
             <if test="createBy != null and createBy != ''"> and O.CREATE_BY = #{createBy} </if>
         </where>
@@ -35,6 +79,7 @@
     <select id="count" resultType="int">
         select count(1) from sys_operation_record O
         <where>
+            O.IS_DEL=0
             <if test="operation != null and operation != ''"> and O.OPERATION = #{operation} </if>
             <if test="createBy != null and createBy != ''"> and O.CREATE_BY = #{createBy} </if>
         </where>

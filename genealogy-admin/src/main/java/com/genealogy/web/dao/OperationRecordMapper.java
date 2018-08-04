@@ -32,4 +32,11 @@ public interface OperationRecordMapper  extends SuperMapper<OperationRecordEntit
      * @return
      */
     int count(OperationRecordReqVo vo);
+
+    /**
+     * 保存
+     * @param entity
+     * @return
+     */
+    int save(OperationRecordEntity entity);
 }

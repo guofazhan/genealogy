@@ -1,5 +1,6 @@
 package com.genealogy.web.controller.sys;
 
+import com.genealogy.common.aspect.annotation.Log;
 import com.genealogy.web.model.MenuEntity;
 import com.genealogy.web.service.IMenuService;
 import com.genealogy.common.Tree;
@@ -95,6 +96,7 @@ public class MenuController extends BaseController {
 	 * @return
 	 */
 	@ParamVailds
+	@Log("菜单添加")
 	@RequiresPermissions("sys:menu:add")
 	@PostMapping(value = "/save")
 	@ResponseBody
@@ -109,6 +111,7 @@ public class MenuController extends BaseController {
 	 * @param entity
 	 * @return
 	 */
+	@Log("菜单编辑")
 	@RequiresPermissions("sys:menu:edit")
 	@PostMapping(value = "/edit")
 	@ResponseBody
@@ -125,6 +128,8 @@ public class MenuController extends BaseController {
 	 * @param id
 	 * @return
 	 */
+
+	@Log("菜单删除")
 	@RequiresPermissions("sys:menu:remove")
 	@PostMapping(value = "/remove")
 	@ResponseBody

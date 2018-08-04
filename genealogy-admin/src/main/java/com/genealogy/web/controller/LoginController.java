@@ -1,5 +1,6 @@
 package com.genealogy.web.controller;
 
+import com.genealogy.common.aspect.annotation.Log;
 import com.genealogy.web.vo.LoginReqVo;
 import com.genealogy.common.aspect.annotation.ParamVailds;
 import com.genealogy.common.message.ResponseMessage;
@@ -41,9 +42,10 @@ public class LoginController extends BaseController {
 	}
 
 	@ParamVailds
+	@ResponseBody
+	@Log("登录")
 	@PostMapping(value = "/signin")
-	public @ResponseBody
-	ResponseMessage signIn(LoginReqVo reqVo) {
+	public ResponseMessage signIn(LoginReqVo reqVo) {
 		//用户登录鉴权
 		SecurityUtils.getSubject()
 				.login(new UsernamePasswordToken(reqVo.getLoginName(),

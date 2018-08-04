@@ -3,6 +3,7 @@ package com.genealogy.web.model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 
 /**
  * 用户角色关系实体
@@ -18,7 +19,7 @@ public class UserRoleEntity extends BaseEntity{
 	/**
 	 *
 	 */
-	@TableId(value = "ID")
+	@TableId(value = "ID",type = IdType.AUTO)
 	private Integer id;
 
 	/**

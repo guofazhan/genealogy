@@ -1,5 +1,6 @@
 package com.genealogy.web.controller.sys;
 
+import com.genealogy.common.aspect.annotation.Log;
 import com.genealogy.web.model.AreaEntity;
 import com.genealogy.web.service.IAreaService;
 import com.genealogy.common.aspect.annotation.ParamVailds;
@@ -101,6 +102,7 @@ public class AreaController extends BaseController {
      * @return
      */
     @ParamVailds
+    @Log("地区添加")
     @PostMapping(value = "/save")
     @ResponseBody
     public ResponseMessage save(AreaEntity entity) {
@@ -114,6 +116,7 @@ public class AreaController extends BaseController {
      * @return
      */
     @ParamVailds
+    @Log("地区编辑")
     @RequiresPermissions("sys:area:edit")
     @PostMapping(value = "/edit")
     @ResponseBody
@@ -129,6 +132,7 @@ public class AreaController extends BaseController {
      * @param id
      * @return
      */
+    @Log("地区删除")
     @RequiresPermissions("sys:area:remove")
     @PostMapping(value = "/remove")
     @ResponseBody

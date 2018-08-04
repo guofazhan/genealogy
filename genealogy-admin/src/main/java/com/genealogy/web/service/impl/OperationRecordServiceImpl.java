@@ -34,7 +34,7 @@ public class OperationRecordServiceImpl implements IOperationRecordService {
     public <T> int save(T entity) {
         //保存操作记录
         EntityHelper.compleOperationRecord((OperationRecordEntity)entity);
-        return operationRecordMapper.insert((OperationRecordEntity)entity);
+        return operationRecordMapper.save((OperationRecordEntity)entity);
     }
 
     @Override

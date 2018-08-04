@@ -3,6 +3,7 @@ package com.genealogy.web.model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 
 /**
  * 地区实体
@@ -17,7 +18,7 @@ public class AreaEntity extends BaseEntity {
     /**
      * 地区ID
      */
-    @TableId(value = "ID")
+    @TableId(value = "ID",type = IdType.AUTO)
     private Integer areaId;
 
     /**
