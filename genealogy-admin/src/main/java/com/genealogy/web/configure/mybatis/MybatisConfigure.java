@@ -1,5 +1,6 @@
 package com.genealogy.web.configure.mybatis;
 
+import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.plugins.PerformanceInterceptor;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,14 @@ public class MybatisConfigure implements TransactionManagementConfigurer {
 	@Bean
 	public PerformanceInterceptor performanceInterceptor() {
 		return new PerformanceInterceptor();
+	}
+
+	/**
+	 * 分页插件
+	 */
+	@Bean
+	public PaginationInterceptor paginationInterceptor() {
+		return new PaginationInterceptor();
 	}
 
 	@Override

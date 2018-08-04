@@ -1,10 +1,14 @@
 package com.genealogy.web.controller.report;
 
+import com.genealogy.common.Page;
 import com.genealogy.web.controller.BaseController;
+import com.genealogy.web.model.OperationRecordEntity;
+import com.genealogy.web.service.IOperationRecordService;
+import com.genealogy.web.vo.OperationRecordReqVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author G2Y
@@ -19,8 +23,25 @@ public class LogController extends BaseController {
 
     private static final String PREFIX = "report/log";
 
+    /**
+     * 操作记录服务
+     */
+    @Autowired
+    private IOperationRecordService operationRecordService;
+
     @GetMapping()
     String index(Model model) {
         return PREFIX + "/index";
+    }
+
+    /**
+     * 操作记录分页查询
+     * @param vo
+     * @return
+     */
+    @PostMapping(value = "/page")
+    @ResponseBody
+    public Page<OperationRecordEntity> page(@RequestBody OperationRecordReqVo vo) {
+        return operationRecordService.page(vo);
     }
 }

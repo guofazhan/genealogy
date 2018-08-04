@@ -24,6 +24,28 @@ public class EntityHelper {
         entity.setLastModifyTime(DateUtil.formatCurrentDateTime(DateUtil.PATTERN_TIME));
     }
 
+    /**
+     * 补全操作记录实体
+     * @param entity
+     */
+    public static void compleOperationRecord(OperationRecordEntity entity){
+        entity.setIsDel(0);
+        if(null != ShiroHelper.getUser()){
+            entity.setCreateBy(ShiroHelper.getUser().getLoginName());
+            entity.setLastModifyBy(ShiroHelper.getUser().getLoginName());
+        }
+
+        if(null == entity.getCreateBy()){
+            entity.setCreateBy("");
+        }
+
+        if(null == entity.getLastModifyBy()){
+            entity.setLastModifyBy("");
+        }
+        entity.setCreateTime(DateUtil.formatCurrentDateTime(DateUtil.PATTERN_TIME));
+        entity.setLastModifyTime(DateUtil.formatCurrentDateTime(DateUtil.PATTERN_TIME));
+    }
+
     public static  <T extends BaseEntity> void compleUpdateEntity(T entity) {
         entity.setIsDel(0);
         entity.setCreateTime(DateUtil.formatCurrentDateTime(DateUtil.PATTERN_TIME));

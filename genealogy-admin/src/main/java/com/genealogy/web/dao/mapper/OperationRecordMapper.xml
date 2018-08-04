@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.genealogy.web.dao.OperationRecordMapper">
+    <sql id="base_query">
+        <![CDATA[
+            SELECT
+                O.ID,
+                O.SPEND,
+                O.OPERATION,
+                O.REMARK,
+                O.IS_DEL,
+                O.CREATE_BY,
+                O.CREATE_TIME,
+                O.LAST_MODIFY_BY,
+                O.LAST_MODIFY_TIME
+            FROM
+                sys_operation_record O
+      ]]>
+    </sql>
+
+    <!--根据参数查询 -->
+    <select id="list" resultType="com.genealogy.web.model.OperationRecordEntity">
+        <include refid="base_query"></include>
+        <where>
+            <if test="operation != null and operation != ''"> and O.OPERATION = #{operation} </if>
+            <if test="createBy != null and createBy != ''"> and O.CREATE_BY = #{createBy} </if>
+        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        select count(1) from sys_operation_record O
+        <where>
+            <if test="operation != null and operation != ''"> and O.OPERATION = #{operation} </if>
+            <if test="createBy != null and createBy != ''"> and O.CREATE_BY = #{createBy} </if>
+        </where>
+    </select>
+
+</mapper>
